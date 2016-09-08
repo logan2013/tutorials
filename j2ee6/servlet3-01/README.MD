@@ -1,0 +1,1 @@
+web application without web.xml by using JavaEE 6
