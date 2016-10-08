@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body ng-app="myApp" ng-controller="mainCtrl">
+	
+	<div th:include="header"></div>
+
+	<h1>Foo Details</h1>
+	
+	<label>ID</label>
+	<span>{{foo.id}}</span>
+
+	<label>Name</label>
+	<span>{{foo.name}}</span>
+	
+	<a href="#" ng-click="getFoo()">New Foo</a>
+</body>
+</html>
