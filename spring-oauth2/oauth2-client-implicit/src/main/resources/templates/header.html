@@ -1,0 +1,45 @@
+<div>
+	
+	<oauth
+		site="http://localhost:8080"
+		client-id="sampleClientId"
+		redirect-uri="http://localhost:8082/index"
+		scope="read"
+		template="oauthTemp">
+	</oauth>
+
+	<script type="text/javascript" th:src="@{/angular.js}"></script>
+	<script type="text/javascript" th:src="@{/angular-resource.js}"></script>
+	<script type="text/javascript" th:src="@{/angular-route.js}"></script>
+	<script type="text/javascript" th:src="@{/ngStorage.min.js}"></script>
+	<script type="text/javascript" th:src="@{/oauth-ng.js}"></script>
+	
+	<script>
+		/*<![CDATA[*/
+
+		var app = angular.module('myApp', ["ngResource", "ngRoute", "oauth"]);
+		
+		app.config(function($locationProvider) {
+			$locationProvider.html5Mode({
+				enabled: true,
+				requireBase: false
+			}).hashPrefix("!");
+		});
+		
+		app.controller('mainCtrl', function($scope, $resource, $http, $rootScope) {
+			
+			$scope.$on("oauth:login", function(event, token) {
+				$http.defaults.headers.common.Authorization= 'Bearer ' + token.access_token;
+			});
+			
+			$scope.foo = {id:0 , name:"sample foo"};
+			$scope.foos = $resource("http://localhost:8081/foos/:fooId", {fooId:'@id'});
+			$scope.getFoo = function (){
+				$scope.foo = $scope.foos.get({fooId: $scope.foo.id});
+			} 
+		});
+		           
+		/*]]>*/
+	</script>
+
+</div>
