@@ -47,8 +47,13 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
+		/**
+		 * 
+		 * NOTE：必须调用，将Authentication加入到上下文中，SecurityContextHolder.getContext().
+		 * setAuthentication(authResult);
+		 */
 		super.successfulAuthentication(request, response, chain, authResult);
-		
+
 		chain.doFilter(request, response);
 	}
 }
