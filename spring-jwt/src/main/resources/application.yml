@@ -1,0 +1,6 @@
+jwt:
+  header: Authorization
+  secret: my-very-secret-key
+logging:
+  level:
+    org.springframework.security: DEBUG
