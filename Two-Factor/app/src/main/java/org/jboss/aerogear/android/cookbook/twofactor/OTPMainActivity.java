@@ -33,6 +33,13 @@ public class OTPMainActivity extends Activity {
         withQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /**
+                 * Android intent is a data structure containing a description of a to-be-performed operation
+                 *
+                 * An intent is always handled by an Android component
+                 *
+                 * following is an activity as intent handler
+                 */
                 startActivity(new Intent(OTPMainActivity.this, OTPQRCodeActivity.class));
             }
         });
