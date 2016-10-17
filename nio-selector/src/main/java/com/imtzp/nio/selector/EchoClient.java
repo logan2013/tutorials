@@ -8,6 +8,7 @@ public class EchoClient {
 
 	private static SocketChannel clientChannel;
 	private static EchoClient client;
+	private static ByteBuffer byteBuffer;
 
 	public static EchoClient start() throws Exception {
 		client = new EchoClient();
@@ -16,16 +17,19 @@ public class EchoClient {
 
 	private EchoClient() throws Exception {
 		clientChannel = SocketChannel.open(new InetSocketAddress("localhost", 5454));
+		byteBuffer = ByteBuffer.allocate(256);
 	}
 
 	public String sendMessage(String msg) throws Exception {
 
-		// TODO ??? why can't use put
-		ByteBuffer byteBuffer = ByteBuffer.wrap(msg.getBytes());
-
+		byteBuffer.put(msg.getBytes());
+		/**
+		 * must filp first to reset the postion
+		 */
+		byteBuffer.flip();
 		clientChannel.write(byteBuffer);
+		
 		byteBuffer.clear();
-
 		clientChannel.read(byteBuffer);
 		String response = new String(byteBuffer.array()).trim();
 		byteBuffer.clear();
