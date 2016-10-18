@@ -7,4 +7,6 @@ selector's select method
 This method blocks until at least one channel is ready for an operation.
 The integer returned represents then number of keys whose channels are ready for an operation
 
-TODO: 客户端使用wrap方法，每次都新建一个ByteBuffer对象？？
+wrap和put的区别
+1. wrap是静态方法，返回一个ByteBuffer对象；put是成员方法
+2. wrap返回的ByteBuffer对象的postion从0开始，put后position递增，读写时需要先调用flip方法
