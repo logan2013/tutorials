@@ -1,0 +1,972 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0086)https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Getting started with Akka Stream Kafka – Using Kafka the reactive streams way | Jeroen van Wilgenburg</title>
+
+<link rel="stylesheet" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/style.css" type="text/css" media="screen">
+
+<script async="" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/beacon.js"></script><script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/base.js"></script>
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/menu.js"></script>
+
+<link rel="pingback" href="https://vanwilgenburg.wordpress.com/xmlrpc.php">
+<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="alternate" type="application/rss+xml" title="Jeroen van Wilgenburg » Feed" href="https://vanwilgenburg.wordpress.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Jeroen van Wilgenburg » Comments Feed" href="https://vanwilgenburg.wordpress.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Jeroen van Wilgenburg » Getting started with Akka Stream Kafka – Using Kafka the reactive streams way Comments Feed" href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1473172720h&ver=4.6.1-RC1-38499"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/wp-emoji-release.min.js" type="text/javascript"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="all-css-0" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource" type="text/css" media="all">
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource(1)"></script>
+<link rel="stylesheet" id="all-css-0" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/style(1).css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://vanwilgenburg.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Finding the link between heart rate and running pace with Spark ML – Fitting a linear regression model" href="https://vanwilgenburg.wordpress.com/2016/09/02/finding-the-link-between-heart-rate-and-running-pace-with-spark-ml-fitting-a-linear-regression-model/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg.html">
+<link rel="shortlink" href="http://wp.me/p1KLmh-8r">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&url=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F&for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&url=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F&for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Getting started with Akka Stream Kafka – Using Kafka the reactive streams way">
+<meta property="og:url" content="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/">
+<meta property="og:description" content="A few days ago my eyes fell on a new release of Akka Stream Kafka. Since I’m doing a lot with Kafka currently and I really wanted to get my hands dirty with Akka this sounded very good. Also …">
+<meta property="article:published_time" content="2016-09-19T05:53:38+00:00">
+<meta property="article:modified_time" content="2016-09-26T05:49:09+00:00">
+<meta property="og:site_name" content="Jeroen van Wilgenburg">
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:site" content="@wordpressdotcom">
+<meta name="twitter:card" content="summary">
+<meta property="fb:app_id" content="249643311490">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png">
+<link rel="openid.server" href="https://vanwilgenburg.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://vanwilgenburg.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://vanwilgenburg.wordpress.com/osd.xml" title="Jeroen van Wilgenburg">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<meta name="application-name" content="Jeroen van Wilgenburg"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Just another WordPress.com site"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://vanwilgenburg.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="title" content="Getting started with Akka Stream Kafka – Using Kafka the reactive streams way | Jeroen van Wilgenburg on WordPress.com">
+<meta name="description" content="A few days ago my eyes fell on a new release of Akka Stream Kafka. Since I&#39;m doing a lot with Kafka currently and I really wanted to get my hands dirty with Akka this sounded very good. Also a good opportunity to see if an upgrade to Kafka 0.10.0.1 (from 0.8.2.2) is worth while…">
+		<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		try {
+			var a9_p = amznads.getKeys(),
+			_ipw_custom = {
+				wordAds: '0',
+				adSafe: '0',
+				domain: 'vanwilgenburg.wordpress.com',
+				pageURL: 'https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/'
+			};
+			if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		} catch(e) {}
+		</script>		<!-- Criteo AdBlock Plus script-->
+		<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/publishertag.js"></script>
+		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+					g.__ATA.displayAdBlockedAd( id, o );
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				},
+				displayAdBlockedAd: function( id, t ) {
+					if ( true !== true ) {
+						return;
+					}
+
+					if ( typeof Criteo !== 'object' ) {
+						return;
+					}
+
+					if ( 300 === parseInt( t.width ) && 250 === parseInt( t.height ) ) {
+						var wpa = document.getElementsByClassName( 'wpa' );
+						for( var i = 0; i < wpa.length; i++ ) {
+							wpa[i].style.setProperty( 'visibility', 'visible', 'important' );
+							wpa[i].style.setProperty( 'display', 'inline-block', 'important' );
+						}
+
+						Criteo.DisplayAcceptableAdIfAdblocked( {
+							zoneid: 388248,
+							containerid: id,
+							collapsecontainerifnotadblocked: false
+						});
+					}
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script><script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/showad.js"></script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><link rel="amphtml" href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/amp/"><link rel="stylesheet" type="text/css" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/shCore.css"><link rel="stylesheet" type="text/css" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/shThemeDefault.css"><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script type="text/javascript" async="" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/ga.js"></script>
+<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/services.css"></head>
+
+<body class="single single-post postid-523 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+<!-- wrap START -->
+<div id="wrap">
+
+<!-- container START -->
+<div id="container">
+
+<!-- header START -->
+<div id="header">
+
+	<!-- banner START -->
+		<!-- banner END -->
+
+	<div id="caption">
+		<h1 id="title"><a href="https://vanwilgenburg.wordpress.com/">Jeroen van Wilgenburg</a></h1>
+		<div id="tagline">Just another WordPress.com site</div>
+	</div>
+
+	<div class="fixed"></div>
+</div>
+<!-- header END -->
+
+<!-- navigation START -->
+<div id="navigation">
+	<!-- menus START -->
+	<ul id="menus">
+	<li class="page_item"><a class="home" title="Home" href="https://vanwilgenburg.wordpress.com/">Home</a></li>
+	<li class="page_item page-item-2"><a href="https://vanwilgenburg.wordpress.com/about/">About</a></li>
+<li class="page_item page-item-500"><a href="https://vanwilgenburg.wordpress.com/food/">Food</a></li>
+<li class="page_item page-item-512"><a href="https://vanwilgenburg.wordpress.com/bike/">Bike</a></li>
+	<li><a class="lastmenu" href="javascript:void(0);"></a></li>
+</ul>
+
+	<!-- menus END -->
+
+	<!-- searchbox START -->
+	<div id="searchbox">
+		<form action="https://vanwilgenburg.wordpress.com/" method="get">
+			<div class="content">
+				<input type="text" class="textfield searchtip" name="s" size="24" value="">
+				<input type="submit" class="button" value="">
+			</div>
+		</form>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+	var searchbox = MGJS.$("searchbox");
+	var searchtxt = MGJS.getElementsByClassName("textfield", "input", searchbox)[0];
+	var searchbtn = MGJS.getElementsByClassName("button", "input", searchbox)[0];
+	var tiptext = "Type text to search here...";
+	if(searchtxt.value == "" || searchtxt.value == tiptext) {
+		searchtxt.className += " searchtip";
+		searchtxt.value = tiptext;
+	}
+	searchtxt.onfocus = function(e) {
+		if(searchtxt.value == tiptext) {
+			searchtxt.value = "";
+			searchtxt.className = searchtxt.className.replace(" searchtip", "");
+		}
+	}
+	searchtxt.onblur = function(e) {
+		if(searchtxt.value == "") {
+			searchtxt.className += " searchtip";
+			searchtxt.value = tiptext;
+		}
+	}
+	searchbtn.onclick = function(e) {
+		if(searchtxt.value == "" || searchtxt.value == tiptext) {
+			return false;
+		}
+	}
+//]]>
+</script>
+	<!-- searchbox END -->
+
+	<div class="fixed"></div>
+</div>
+<!-- navigation END -->
+
+<!-- content START -->
+<div id="content">
+
+	<!-- main START -->
+	<div id="main">
+
+
+	<div id="postpath">
+		<a title="Go to homepage" href="https://vanwilgenburg.wordpress.com/">Home</a>
+		 &gt; <a href="https://vanwilgenburg.wordpress.com/category/english/" rel="category tag">English</a>, <a href="https://vanwilgenburg.wordpress.com/category/work/java/" rel="category tag">java</a>, <a href="https://vanwilgenburg.wordpress.com/category/work/" rel="category tag">work</a>		 &gt; Getting started with Akka Stream Kafka – Using Kafka the reactive streams&nbsp;way	</div>
+
+	<div id="post-523" class="post-523 post type-post status-publish format-standard hentry category-english category-java category-work tag-akka tag-kafka tag-scala">
+		<h2>Getting started with Akka Stream Kafka – Using Kafka the reactive streams&nbsp;way</h2>
+		<div class="info">
+			<span class="date">19 September 2016</span>
+			<span class="author"><a href="https://vanwilgenburg.wordpress.com/author/jvwilge/" title="Posts by Jeroen van Wilgenburg" rel="author">Jeroen van Wilgenburg</a></span>										<span class="addcomment"><a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#respond">Leave a comment</a></span>
+				<span class="comments"><a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#comments">Go to comments</a></span>
+						<div class="fixed"></div>
+		</div>
+		<div class="content">
+			<p>A few days ago my eyes fell on a new release of Akka Stream Kafka. Since I’m doing a lot with Kafka currently and I really wanted to get my hands dirty with Akka this sounded very good. Also a good opportunity to see if an upgrade to Kafka 0.10.0.1 (from 0.8.2.2) is worth while (since older versions of Kafka are not supported in Akka Stream Kafka 0.11).</p>
+<p><span id="more-523"></span></p>
+<p>I created a <a href="https://github.com/jvwilge/akka-stream-kafka-getting-started" target="_blank">project on github</a> with all the code you need to run my examples.<br>
+I decided to create the project with good old Maven since we’re currently using that at my client. For Akka Stream Kafka there a two flavours: Java and Scala. I went for Scala, that means that when you have to choose between two imports in your IDE you have to pick the ones from the package <code>akka.kafka.scaladsl</code>.</p>
+<p>Configuration (loading a property/json file) is handled by Typesafe Config, in my case an <code>application.conf</code> in the <code>src/main/resources directory</code>. I copied the <a href="http://doc.akka.io/docs/akka-stream-kafka/0.11/consumer.html#settings" target="_blank">config</a> from the Consumer sample at akka-stream-conf. This configuration will serve as the base (as we will add some things later).</p>
+<p>Now create a <code>Main.scala</code> with the following code in the main method :</p>
+<div><div id="highlighter_354947" class="syntaxhighlighter  scala"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="scala keyword">val</code> <code class="scala plain">config </code><code class="scala keyword">=</code> <code class="scala plain">ConfigFactory.load()</code></div><div class="line number2 index1 alt1"><code class="scala keyword">implicit</code> <code class="scala keyword">val</code> <code class="scala plain">system </code><code class="scala keyword">=</code> <code class="scala plain">ActorSystem.create(</code><code class="scala string">"akka-stream-kafka-getting-started"</code><code class="scala plain">, config)</code></div><div class="line number3 index2 alt2"><code class="scala keyword">implicit</code> <code class="scala keyword">val</code> <code class="scala plain">mat </code><code class="scala keyword">=</code> <code class="scala plain">ActorMaterializer()</code></div></div></td></tr></tbody></table></div></div>
+<p>This will load the config and start the ActorSystem. The implicit val <code>system</code> is used when creating mat. The implicit <code>mat</code> is used at the runWith method (later in this article).</p>
+<h2>Creating a consumer</h2>
+<p>I decided to create a consumer since we can incorporate that in an upcoming project pretty soon.</p>
+<div><div id="highlighter_515444" class="syntaxhighlighter  scala"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="scala keyword">val</code> <code class="scala plain">consumerSettings </code><code class="scala keyword">=</code> <code class="scala plain">ConsumerSettings(system, </code><code class="scala keyword">new</code> <code class="scala plain">ByteArrayDeserializer, </code><code class="scala keyword">new</code> <code class="scala plain">StringDeserializer)</code></div><div class="line number2 index1 alt1"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">.withBootstrapServers(</code><code class="scala string">"localhost:9092"</code><code class="scala plain">)</code></div><div class="line number3 index2 alt2"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">.withGroupId(</code><code class="scala string">"jeroen-akka-stream-kafka-test"</code><code class="scala plain">)</code></div><div class="line number4 index3 alt1"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">.withProperty(ConsumerConfig.AUTO</code><code class="scala keyword">_</code><code class="scala plain">OFFSET</code><code class="scala keyword">_</code><code class="scala plain">RESET</code><code class="scala keyword">_</code><code class="scala plain">CONFIG, </code><code class="scala string">"earliest"</code><code class="scala plain">)</code></div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="scala plain">Consumer.committableSource(consumerSettings, Subscriptions.topics(</code><code class="scala string">"YadaYadaTopic"</code><code class="scala plain">))</code></div><div class="line number7 index6 alt2"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">.map(msg </code><code class="scala keyword">=</code><code class="scala plain">&gt; {</code></div><div class="line number8 index7 alt1"><code class="scala spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="scala plain">println(msg)</code></div><div class="line number9 index8 alt2"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">})</code></div><div class="line number10 index9 alt1"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">.runWith(Sink.ignore)</code></div></div></td></tr></tbody></table></div></div>
+<p>The first part is configuration and after that the processing of the message. In our case we’re just printing the message. After processing the message is directed to the <code>Sink.ignore</code>. To read more about the <code>map</code>/<code>runWith</code> construction read <a href="http://doc.akka.io/docs/akka/2.4/java/stream/stream-quickstart.html" target="_blank">the documentation about Akka Streams</a>.</p>
+<p>My Consumer uses a commitable source. That means that we have at-least-once delivery (when you don’t commit it will eventually be delivered again). When we finished processing we could commit after every message. But this means there are a lot of commit messages, an alternative solution is to use auto commit (with a time range)<sup>*</sup>.<br>
+To use auto commit add the following json to <code>application.conf</code> under <code>akka.kafka.consumer</code>:</p>
+<div><div id="highlighter_515010" class="syntaxhighlighter  jscript"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="jscript plain">kafka-clients {</code></div><div class="line number2 index1 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">enable.auto.commit = </code><code class="jscript keyword">true</code></div><div class="line number3 index2 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">auto.commit.interval.ms = 10000</code></div><div class="line number4 index3 alt1"><code class="jscript plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>The commit interval is in ms, so every 10 seconds the data will be committed. Suppose your application crashes 6 seconds after a commit, you will receive the data since the last commit when you restart it (given that your retention time is long enough). A small price to pay for much better performance.</p>
+<p><b>* update 19-sept-16 @ 17:16Z</b><br>
+Patrik Nordwall pointed me to a better solution for commits: <a href="http://doc.akka.io/docs/akka-stream-kafka/current/consumer.html#offset-storage-in-kafka" target="_blank">committing in batches</a>. This is a more verbose solution, but also reliable (which auto-commit isn’t). So auto-commit is okay for proof-of-concepts, but go for batch commit when you’re getting serious.</p>
+<h2>Setting up and running Zookeeper and Kafka</h2>
+<p>To run the examples you need a running Zookeeper and Kafka server. I downloaded Kafka from Apache (which includes Zookeeper). You don’t need to change any configuration, just start both servers.</p>
+<p>To start Zookeeper :</p>
+<div><div id="highlighter_580805" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">cd</code> <code class="bash plain">$KAFKA_HOME</code><code class="bash plain">/bin</code></div><div class="line number2 index1 alt1"><code class="bash plain">.</code><code class="bash plain">/zookeeper-server-start</code><code class="bash plain">.sh&nbsp; ..</code><code class="bash plain">/config/zookeeper</code><code class="bash plain">.properties </code></div></div></td></tr></tbody></table></div></div>
+<p>To start Kafka :</p>
+<div><div id="highlighter_880727" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">cd</code> <code class="bash plain">$KAFKA_HOME</code><code class="bash plain">/bin</code></div><div class="line number2 index1 alt1"><code class="bash plain">.</code><code class="bash plain">/kafka-server-start</code><code class="bash plain">.sh ..</code><code class="bash plain">/config/server</code><code class="bash plain">.properties</code></div></div></td></tr></tbody></table></div></div>
+<p><b>update 26-sept-16 @ 05:48Z</b> When you’re using macOs Sierra with homebrew to install Kafka you have to update XCode first (thanks for the tip <a href="https://twitter.com/cpomeara/status/779759027668541441" target="_blank">Corey O’Meara</a>)</p>
+<h2>Publish some messages</h2>
+<p>To add some test data to Kafka run the following commands in a new terminal window :</p>
+<div><div id="highlighter_578265" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">cd</code> <code class="bash plain">$KAFKA_HOME</code><code class="bash plain">/bin</code></div><div class="line number2 index1 alt1"><code class="bash plain">.</code><code class="bash plain">/kafka-topics</code><code class="bash plain">.sh --zookeeper localhost:2181 --create --topic YadaYadaTopic --partitions 3 --replication-factor 1</code></div><div class="line number3 index2 alt2"><code class="bash plain">.</code><code class="bash plain">/kafka-console-producer</code><code class="bash plain">.sh --broker-list localhost:9092 --topic YadaYadaTopic</code></div></div></td></tr></tbody></table></div></div>
+<p>When you type something and hit enter it’s published on Kakfa. Keep this terminal open and type some stuff when you’re ready to test.</p>
+<p>When you publish a message to Kafka it will appear in the System.out logging. The nice thing is that the toString is pretty elaborate and gives you a lot of useful information.</p>
+<p>Since you’re using Akka Streams you get back-pressure out of the box</p>
+<h2>Resetting offsets in Kafka</h2>
+<p>While playing around with stuff it’s nice if you can reset things and start over again. A really annoying thing of Kafka was resetting the offsets. Starting from version 0.10.0.1 there is a command called <code>kafka-streams-application-reset.sh</code> This will reset a specific groupId for a topic. It says Kafka Streams, but also works for other applications.<br>
+If you want to reset the offset for the <code>YadaYadaTopic</code> on groupId <code>jeroen-akka-stream-kafka-test</code> you just execute the command :</p>
+<div><div id="highlighter_312102" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">cd</code> <code class="bash plain">$KAFKA_HOME</code><code class="bash plain">/bin</code></div><div class="line number2 index1 alt1"><code class="bash plain">.</code><code class="bash plain">/kafka-streams-application-reset</code><code class="bash plain">.sh --zookeeper localhost:2181 --application-</code><code class="bash functions">id</code> <code class="bash plain">jeroen-akka-stream-kafka-</code><code class="bash functions">test</code> <code class="bash plain">--input-topics YadaYadaTopic</code></div></div></td></tr></tbody></table></div></div>
+<p>It’s a real time saver!</p>
+<p>It’s probably a wise thing to stop any running producers/consumers to prevent them from messing things up.</p>
+<h2>WakeupException</h2>
+<p>Currently there are some <a href="https://github.com/akka/reactive-kafka/issues/224" target="_blank">problems</a> when quickly restarting your ActorSystem. It probably has something to do with cleaning up resources. The good news is that the creators are well aware of this problem and are working on a solution. For adding a ShutdownHook solves the problem :</p>
+<div><div id="highlighter_105970" class="syntaxhighlighter  scala"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="scala plain">scala.sys.addShutdownHook {</code></div><div class="line number2 index1 alt1"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">println(</code><code class="scala string">"Terminating... - "</code> <code class="scala plain">+ Instant.now)</code></div><div class="line number3 index2 alt2"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">system.terminate()</code></div><div class="line number4 index3 alt1"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">Await.result(system.whenTerminated, </code><code class="scala value">30</code> <code class="scala plain">seconds)</code></div><div class="line number5 index4 alt2"><code class="scala spaces">&nbsp;&nbsp;</code><code class="scala plain">println(</code><code class="scala string">"Terminated... Bye - "</code> <code class="scala plain">+ Instant.now)</code></div><div class="line number6 index5 alt1"><code class="scala plain">}</code></div></div></td></tr></tbody></table></div></div>
+<h2>Some things that are nice to know</h2>
+<p>Since Akka Stream Kafka is under development there are some things you have to be aware of :</p>
+<ul>
+<li>The only supported versions of Kafka are the 0.10.0.x range</li>
+<li>The github repo will be renamed from <code>reactive-kafka</code> to <code>akka-stream-kafka</code></li>
+<li>A WakeUpException is currently unrecoverable: <a href="https://github.com/akka/reactive-kafka/issues/224" rel="nofollow">https://github.com/akka/reactive-kafka/issues/224</a></li>
+</ul>
+<h2>Conclusion</h2>
+<p>At Scala Days Berlin someone mentioned Gitter as a medium to reach out to to get help. I gave it a shot and got an answer within minutes! It’s great for short questions that are not worth a post on StackOverflow</p>
+<p>The addition of the kafka-streams-application-reset alone is worth a client upgrade to me. A Kafka server update is mandatory to use Akka Stream Kafka, but to make a useful statement about whether an upgrade from 0.8.2.2 in production is worth while I need to do more research.</p>
+<p>For people using Akka Streams it will be a seamless step to Akka Stream Kafka, for newcomers it’ll still be easy because of the clear api. The documentation is okay for now, it really helps if you take the time to read some things about Akka Streams first.</p>
+<p>Akka Stream Kafka is a promising framework with an active community, so give it a shot!</p>
+<h2>Sources</h2>
+<p><a href="http://blog.akka.io/integrations/2016/09/10/akka-stream-kafka" target="_blank">Announcement of 0.11 and good introduction and background info</a><br>
+<a href="https://www.lightbend.com/blog/akka-streams-kafka-interview?utm_content=buffer4a2fc&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer" target="_blank">Akka Streams Kafka – A behind the scenes Interview</a><br>
+<a href="http://stackoverflow.com/a/33638056/833009" target="_blank">Graceful shutdown of Akka System</a><br>
+<a href="https://gitter.im/akka/reactive-kafka?at=56332e49de1b24f9462bf133" target="_blank">Michal Sitko @note on back-pressure</a><br>
+<a href="https://gitter.im/akka/reactive-kafka?at=56d5a4db5823df8963f0e9ee" target="_blank">Eric Biggs @ebiggs on back-pressure</a><br>
+<a href="https://gitter.im/akka/reactive-kafka?at=55f9423ca2c7aa6b1086be22" target="_blank">Clelio De Souza @cleliofs on details of back-pressure (also read the two subsequent messages</a><br>
+<a href="https://gitter.im/akka/reactive-kafka?at=55f9369878514db1064f49b3" target="&quot;_blank">Konrad Malawski @ktoso on advanced back-pressure</a><br>
+<a href="https://gitter.im/akka/reactive-kafka?at=57d6efdba0e8dbb04f304cf3" target="&quot;_blank">Konrad Malawski @ktoso on renaming the project</a><br>
+<a href="https://gitter.im/akka/reactive-kafka?at=57d6dcc4cba69fe73508c4f6" target="&quot;_blank">Konrad Malawski @ktoso on versions supported</a><br>
+<a href="http://doc.akka.io/docs/akka/2.4.10/scala/stream/stream-flows-and-basics.html#back-pressure-explained" target="&quot;_blank">Akka Streams Docs explaining back-pressure</a><br>
+<a href="http://stackoverflow.com/questions/38480552/kafka-stream-offset-reset-to-zero-for-consumer-group" target="_blank">Kafka Stream offset reset to zero for consumer group – Stack Overflow</a></p>
+<p><a href="https://github.com/akka/reactive-kafka" target="_blank">Github repo (might be renamed to akka-stream-kafka soon)</a><br>
+<a href="https://github.com/jvwilge/akka-stream-kafka-getting-started" target="_blank">Source code for this article</a></p>
+		<div class="wpcnt">
+			<div class="wpa wpmrec" style="visibility: visible !important; display: inline-block !important;">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+				<div class="u">
+					<script type="text/javascript">
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script><div id="automattic-id-10058" data-section="26942" style="width:300px; height:250px;"><iframe src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/afr.html" id="automattic-id-10058_cto_iframe" frameborder="0" marginwidth="0px" marginheight="0px" width="100%" height="100%" scrolling="no"></iframe></div>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-523" class="share-twitter sd-button share-icon" href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/?share=twitter&nb=1" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-523" class="share-facebook sd-button share-icon" href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/?share=facebook&nb=1" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-25921473-523-5804d165bd7e6" data-src="//widgets.wp.com/likes/#blog_id=25921473&amp;post_id=523&amp;origin=vanwilgenburg.wordpress.com&amp;obj_id=25921473-523-5804d165bd7e6" data-name="like-post-frame-25921473-523-5804d165bd7e6"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-25921473-523-5804d165bd7e6" height="55px" width="100%" frameborder="0" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource(7).html"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div></div>						<div class="fixed"></div>
+		</div>
+		<div class="under">
+			<span><span class="categories">Categories: </span><a href="https://vanwilgenburg.wordpress.com/category/english/" rel="category tag">English</a>, <a href="https://vanwilgenburg.wordpress.com/category/work/java/" rel="category tag">java</a>, <a href="https://vanwilgenburg.wordpress.com/category/work/" rel="category tag">work</a></span>
+			<span><span class="tags">Tags: </span><a href="https://vanwilgenburg.wordpress.com/tag/akka/" rel="tag">akka</a>, <a href="https://vanwilgenburg.wordpress.com/tag/kafka/" rel="tag">kafka</a>, <a href="https://vanwilgenburg.wordpress.com/tag/scala/" rel="tag">scala</a></span>
+		</div>
+		<div class="fixed"></div>
+	</div>
+
+	
+
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/comment.js"></script>
+
+<div id="comments">
+
+	
+		<div id="cmtswitcher">
+										<a id="commenttab" class="curtab" href="javascript:void(0);" onclick="MGJS.switchTab(&#39;thecomments,commentnavi&#39;, &#39;thetrackbacks&#39;, &#39;commenttab&#39;, &#39;curtab&#39;, &#39;trackbacktab&#39;, &#39;tab&#39;);">
+					Comments (0)				</a>
+				<a id="trackbacktab" class="tab" href="javascript:void(0);" onclick="MGJS.switchTab(&#39;thetrackbacks&#39;, &#39;thecomments,commentnavi&#39;, &#39;trackbacktab&#39;, &#39;curtab&#39;, &#39;commenttab&#39;, &#39;tab&#39;);">
+					Trackbacks (1)				</a>
+			
+							<span class="addcomment"><a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#respond">Leave a comment</a></span>
+			
+							<span class="addtrackback"><a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/trackback/">Trackback</a></span>
+					</div><!-- #cmtswitcher -->
+
+		<div id="commentlist">
+
+			<!-- Comments -->
+			<ol id="thecomments">
+							<li class="messagebox">
+					No comments yet.				</li>
+						</ol><!-- #thecomments -->
+
+			
+			<!-- Trackbacks and Pingbacks -->
+			<ol id="thetrackbacks">
+										<li id="comment-878" class="pingback even thread-even depth-1 trackback highlander-comment">
+		<div class="date">
+			22 September 2016 at 20:51		</div><!-- .date -->
+		<div class="act">
+					</div><!-- .act -->
+		<div class="title">
+			<a href="http://www.baeldung.com/java-web-weekly-143" rel="external nofollow" class="url">Java Web Weekly, Issue 143 | Baeldung</a>		</div><!-- .title -->
+</li><!-- #comment-## -->
+							</ol><!-- #thetrackbacks -->
+
+		</div><!-- #commentlist -->
+	
+
+				<div id="respond" class="comment-respond js">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://vanwilgenburg.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="28f8f3ab21"><input type="hidden" name="_wp_http_referer" value="/2016/09/19/getting-started-with-akka-stream-kafka/">
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px; padding: 0px; box-sizing: content-box; word-wrap: break-word; overflow: hidden; -webkit-transition: none; transition: none; height: 0px !important; min-height: 0px !important; font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none; word-spacing: 0px; text-indent: 0px; line-height: normal; width: 563px;" class="autosizejs "></textarea><textarea id="comment" name="comment" title="Enter your comment here..." placeholder="Enter your comment here..." style="height: 36px; overflow: hidden; word-wrap: break-word; resize: none;"></textarea></div>
+</div>
+
+<div id="comment-form-identity" style="display: none;">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource.html" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/ad516503a11cd5ca435acc9bb6523536" alt="Gravatar" width="25" class="no-grav">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value=""></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/ad516503a11cd5ca435acc9bb6523536" alt="WordPress.com Logo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="">
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/ad516503a11cd5ca435acc9bb6523536" alt="Twitter picture" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="">
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/ad516503a11cd5ca435acc9bb6523536" alt="Facebook photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="">
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/ad516503a11cd5ca435acc9bb6523536" alt="Google+ photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="">
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe" style="display: none;">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit" style="display: none;"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="523" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8934b20a1a"></p>
+<input type="hidden" name="genseq" value="1476710757">
+<p style="display: none;"></p>				<input type="hidden" id="ak_js" name="ak_js" value="1476797080987"></form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+	<div id="postnavi">
+		<span class="prev"></span>
+		<span class="next"><a href="https://vanwilgenburg.wordpress.com/2016/09/02/finding-the-link-between-heart-rate-and-running-pace-with-spark-ml-fitting-a-linear-regression-model/" rel="prev">Finding the link between heart rate and running pace with Spark ML – Fitting a linear regression&nbsp;model</a></span>
+		<div class="fixed"></div>
+	</div>
+
+
+	</div>
+	<!-- main END -->
+
+	
+<!-- sidebar START -->
+<div id="sidebar">
+
+<!-- sidebar north START -->
+<div id="northsidebar" class="sidebar">
+
+	<!-- feeds -->
+	<div class="widget widget_feeds">
+		<div class="content">
+			<div id="subscribe-feeds"><a rel="external nofollow" id="feedrss" title="Subscribe to this blog..." href="https://vanwilgenburg.wordpress.com/feed/"><abbr title="Really Simple Syndication">RSS</abbr> feed</a><ul id="feed_readers" style="visibility: hidden; display: block;"><li id="google_reader"><a rel="external nofollow" class="reader" title="Subscribe with Google" href="http://fusion.google.com/add?feedurl=https://vanwilgenburg.wordpress.com/feed/"><span>Google</span></a></li><li id="youdao_reader"><a rel="external nofollow" class="reader" title="Subscribe with Youdao" href="http://reader.youdao.com/#url=https://vanwilgenburg.wordpress.com/feed/"><span>Youdao</span></a></li><li id="xianguo_reader"><a rel="external nofollow" class="reader" title="Subscribe with Xian Guo" href="http://www.xianguo.com/subscribe.php?url=https://vanwilgenburg.wordpress.com/feed/"><span>Xian Guo</span></a></li><li id="zhuaxia_reader"><a rel="external nofollow" class="reader" title="Subscribe with Zhua Xia" href="http://www.zhuaxia.com/add_channel.php?url=https://vanwilgenburg.wordpress.com/feed/"><span>Zhua Xia</span></a></li><li id="yahoo_reader"><a rel="external nofollow" class="reader" title="Subscribe with My Yahoo!" href="http://add.my.yahoo.com/rss?url=https://vanwilgenburg.wordpress.com/feed/"><span>My Yahoo!</span></a></li><li id="newsgator_reader"><a rel="external nofollow" class="reader" title="Subscribe with newsgator" href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=https://vanwilgenburg.wordpress.com/feed/"><span>newsgator</span></a></li><li id="bloglines_reader"><a rel="external nofollow" class="reader" title="Subscribe with Bloglines" href="http://www.bloglines.com/sub/https://vanwilgenburg.wordpress.com/feed/"><span>Bloglines</span></a></li><li id="inezha_reader"><a rel="external nofollow" class="reader last" title="Subscribe with iNezha" href="http://inezha.com/add?url=https://vanwilgenburg.wordpress.com/feed/"><span>iNezha</span></a></li></ul></div>
+
+			<!-- twitter -->
+			
+			<div class="fixed"></div>
+		</div>
+	</div>
+
+	<!-- showcase -->
+	
+		<div id="recent-posts-3" class="widget widget_recent_entries">		<h3>Recent Posts</h3>		<ul>
+					<li>
+				<a href="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg.html">Getting started with Akka Stream Kafka – Using Kafka the reactive streams&nbsp;way</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2016/09/02/finding-the-link-between-heart-rate-and-running-pace-with-spark-ml-fitting-a-linear-regression-model/">Finding the link between heart rate and running pace with Spark ML – Fitting a linear regression&nbsp;model</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2016/06/28/spark-kafka-write-ahead-log/">At-least-once delivery with Kafka and Spark – Improve the reliability of your&nbsp;job</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2016/04/01/spring-boot-http2/">Spring Boot with HTTP/2 – Start a server and make REST calls as a&nbsp;client</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2015/12/28/http2-server-push-with-jboss-undertow-and-how-to-monitor-things/">HTTP/2 Server Push with JBoss undertow – And how to monitor&nbsp;things</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2015/11/22/how-to-capture-and-decode-http2-traffic-with-wireshark/">How to capture and decode HTTP/2 traffic with&nbsp;Wireshark</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2015/10/16/uitslagen-2015/">Uitslagen 2015</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2015/10/06/spark-streaming-backpressure/">Spark Streaming Backpressure – finding the optimal rate is now done&nbsp;automatically</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2015/05/10/how-to-run-a-spark-cluster-on-mesos-on-your-mac/">How to run a Spark cluster on Mesos on your&nbsp;Mac</a>
+						</li>
+					<li>
+				<a href="https://vanwilgenburg.wordpress.com/2015/02/15/spark-tuning-guide/">Understanding Spark parameters – A step by step guide to tune your Spark&nbsp;job</a>
+						</li>
+				</ul>
+		</div>		<div id="archives-3" class="widget widget_archive"><h3>Archives</h3>		<ul>
+			<li><a href="https://vanwilgenburg.wordpress.com/2016/09/">September 2016</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2016/06/">June 2016</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2016/04/">April 2016</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2015/12/">December 2015</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2015/11/">November 2015</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2015/10/">October 2015</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2015/05/">May 2015</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2015/02/">February 2015</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2014/10/">October 2014</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2014/09/">September 2014</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2014/07/">July 2014</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2014/03/">March 2014</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2014/02/">February 2014</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2014/01/">January 2014</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/11/">November 2013</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/09/">September 2013</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/08/">August 2013</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/05/">May 2013</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/04/">April 2013</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/03/">March 2013</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2013/01/">January 2013</a>&nbsp;(3)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2012/08/">August 2012</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2012/05/">May 2012</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2012/04/">April 2012</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2012/01/">January 2012</a>&nbsp;(2)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2011/12/">December 2011</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2011/11/">November 2011</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2011/09/">September 2011</a>&nbsp;(1)</li>
+	<li><a href="https://vanwilgenburg.wordpress.com/2011/08/">August 2011</a>&nbsp;(3)</li>
+		</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h3>Blogroll</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://veerle.duoh.com/" target="_blank">Veerle's Blog</a></li>
+
+	</ul>
+</div>
+<div id="linkcat-7461" class="widget widget_links"><h3>triathlon</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://fromutrechtwithlove.blogspot.com/" title="Two ultra runners from plane Utrecht prepare themselves for the Transalpine Run 2011" target="_blank">From Utrecht With Love</a></li>
+<li><a href="http://www.zwemmenfietsenlopen.nl/" target="_blank">Zwemmenfietsenlopen.nl</a></li>
+
+	</ul>
+</div>
+<div id="categories-2" class="widget widget_categories"><h3>Categories</h3>		<ul>
+	<li class="cat-item cat-item-178"><a href="https://vanwilgenburg.wordpress.com/category/books/">books</a> (2)
+</li>
+	<li class="cat-item cat-item-789"><a href="https://vanwilgenburg.wordpress.com/category/creativity/">creativity</a> (1)
+</li>
+	<li class="cat-item cat-item-3205"><a href="https://vanwilgenburg.wordpress.com/category/english/">English</a> (28)
+</li>
+	<li class="cat-item cat-item-9532"><a href="https://vanwilgenburg.wordpress.com/category/nederlands/">Nederlands</a> (12)
+</li>
+	<li class="cat-item cat-item-7461"><a href="https://vanwilgenburg.wordpress.com/category/triathlon/">triathlon</a> (10)
+<ul class="children">
+	<li class="cat-item cat-item-102507"><a href="https://vanwilgenburg.wordpress.com/category/triathlon/fietsen/">fietsen</a> (7)
+</li>
+	<li class="cat-item cat-item-9985"><a href="https://vanwilgenburg.wordpress.com/category/triathlon/hardlopen/">hardlopen</a> (9)
+</li>
+	<li class="cat-item cat-item-238061"><a href="https://vanwilgenburg.wordpress.com/category/triathlon/zwemmen/">zwemmen</a> (5)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://vanwilgenburg.wordpress.com/category/uncategorized/">Uncategorized</a> (2)
+</li>
+	<li class="cat-item cat-item-131"><a href="https://vanwilgenburg.wordpress.com/category/work/">work</a> (27)
+<ul class="children">
+	<li class="cat-item cat-item-641922"><a href="https://vanwilgenburg.wordpress.com/category/work/android/">android</a> (2)
+</li>
+	<li class="cat-item cat-item-1017"><a href="https://vanwilgenburg.wordpress.com/category/work/java/">java</a> (22)
+</li>
+	<li class="cat-item cat-item-457"><a href="https://vanwilgenburg.wordpress.com/category/work/javascript/">javascript</a> (1)
+</li>
+	<li class="cat-item cat-item-753"><a href="https://vanwilgenburg.wordpress.com/category/work/usability/">usability</a> (1)
+</li>
+</ul>
+</li>
+		</ul>
+</div><div id="rss_links-3" class="widget widget_rss_links"><p class="size-small"><a class="feed-image-link" href="https://vanwilgenburg.wordpress.com/feed/" title="Subscribe to Posts"><img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/red-small.png" alt="RSS Feed"></a></p>
+</div><div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h3>Tags</h3><div style="overflow:hidden"><a href="https://vanwilgenburg.wordpress.com/tag/adb/" class="tag-link-273713 tag-link-position-1" title="2 topics" style="font-size: 12.2pt;">adb</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/akka/" class="tag-link-702939 tag-link-position-2" title="1 topic" style="font-size: 8pt;">akka</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/android/" class="tag-link-641922 tag-link-position-3" title="2 topics" style="font-size: 12.2pt;">android</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/browse/" class="tag-link-26230 tag-link-position-4" title="1 topic" style="font-size: 8pt;">browse</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/c3p0/" class="tag-link-566574 tag-link-position-5" title="1 topic" style="font-size: 8pt;">c3p0</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/cargo/" class="tag-link-219566 tag-link-position-6" title="1 topic" style="font-size: 8pt;">cargo</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/chrome/" class="tag-link-367314 tag-link-position-7" title="1 topic" style="font-size: 8pt;">chrome</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/ci/" class="tag-link-39104 tag-link-position-8" title="1 topic" style="font-size: 8pt;">ci</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/classloading/" class="tag-link-685518 tag-link-position-9" title="4 topics" style="font-size: 17.333333333333pt;">classloading</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/command-line/" class="tag-link-33927 tag-link-position-10" title="1 topic" style="font-size: 8pt;">command line</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/console/" class="tag-link-2611 tag-link-position-11" title="1 topic" style="font-size: 8pt;">console</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/elasticsearch/" class="tag-link-50684163 tag-link-position-12" title="7 topics" style="font-size: 22pt;">elasticsearch</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/file-system/" class="tag-link-231490 tag-link-position-13" title="1 topic" style="font-size: 8pt;">file system</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/firefox/" class="tag-link-45 tag-link-position-14" title="1 topic" style="font-size: 8pt;">firefox</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/fs/" class="tag-link-27909 tag-link-position-15" title="1 topic" style="font-size: 8pt;">fs</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/hadoop/" class="tag-link-3251196 tag-link-position-16" title="4 topics" style="font-size: 17.333333333333pt;">hadoop</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/hibernate/" class="tag-link-17907 tag-link-position-17" title="1 topic" style="font-size: 8pt;">hibernate</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/http2/" class="tag-link-28479097 tag-link-position-18" title="3 topics" style="font-size: 15pt;">http2</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/jpa/" class="tag-link-307053 tag-link-position-19" title="1 topic" style="font-size: 8pt;">jpa</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/kafka/" class="tag-link-207392 tag-link-position-20" title="4 topics" style="font-size: 17.333333333333pt;">kafka</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/lucene/" class="tag-link-161367 tag-link-position-21" title="4 topics" style="font-size: 17.333333333333pt;">lucene</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/mac/" class="tag-link-808 tag-link-position-22" title="1 topic" style="font-size: 8pt;">mac</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/machine-learning/" class="tag-link-40978 tag-link-position-23" title="1 topic" style="font-size: 8pt;">machine-learning</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/mapreduce/" class="tag-link-3859232 tag-link-position-24" title="2 topics" style="font-size: 12.2pt;">MapReduce</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/maven/" class="tag-link-47862 tag-link-position-25" title="2 topics" style="font-size: 12.2pt;">maven</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/mongodb/" class="tag-link-21954763 tag-link-position-26" title="1 topic" style="font-size: 8pt;">mongodb</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/mysql/" class="tag-link-4419 tag-link-position-27" title="1 topic" style="font-size: 8pt;">mysql</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/scala/" class="tag-link-312256 tag-link-position-28" title="5 topics" style="font-size: 19.2pt;">scala</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/spark/" class="tag-link-63429 tag-link-position-29" title="6 topics" style="font-size: 20.833333333333pt;">spark</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/spring/" class="tag-link-9486 tag-link-position-30" title="1 topic" style="font-size: 8pt;">spring</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/ssl/" class="tag-link-58302 tag-link-position-31" title="2 topics" style="font-size: 12.2pt;">ssl</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/terminal/" class="tag-link-16478 tag-link-position-32" title="1 topic" style="font-size: 8pt;">terminal</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/wireshark/" class="tag-link-686916 tag-link-position-33" title="1 topic" style="font-size: 8pt;">wireshark</a>
+<a href="https://vanwilgenburg.wordpress.com/tag/yarn/" class="tag-link-33323 tag-link-position-34" title="5 topics" style="font-size: 19.2pt;">yarn</a></div></div>	</div>
+</div>
+<!-- sidebar END -->
+	<div class="fixed"></div>
+</div>
+<!-- content END -->
+
+<!-- footer START -->
+<div id="footer">
+	<a id="gotop" href="https://vanwilgenburg.wordpress.com/2016/09/19/getting-started-with-akka-stream-kafka/#" onclick="MGJS.goTop();return false;">Top</a>
+	<div id="themeinfo">
+		<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a> 	</div>
+</div>
+<!-- footer END -->
+
+</div>
+<!-- container END -->
+</div>
+<!-- wrap END -->
+
+<!-- wpcom_wp_footer -->
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/wpgroho.js"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/vanwilgenburg.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/vanwilgenburg.wordpress.com\/wp-login.php?action=logout&_wpnonce=8963eda7fa","homeURL":"https:\/\/vanwilgenburg.wordpress.com\/","postID":"523","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource(2)"></script>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/vanwilgenburg.wordpress.com\/2016\/09\/19\/getting-started-with-akka-stream-kafka\/":523};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/form.js"></script>
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource(3)"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = {"siteID":"25921473","siteName":"Jeroen van Wilgenburg","siteURL":"http:\/\/vanwilgenburg.wordpress.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/void.gif' class='avatar avatar-36' height='36' width='36' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/inove","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/vanwilgenburg.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F","themeURL":"","xhrURL":"https:\/\/vanwilgenburg.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"50978ec19c","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"e628b6255e\" \/>","referer":"https:\/\/vanwilgenburg.wordpress.com\/2016\/09\/19\/getting-started-with-akka-stream-kafka\/","canFollow":"1","statusMessage":"","customizeLink":"https:\/\/vanwilgenburg.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F","postID":"523","shortlink":"http:\/\/wp.me\/p1KLmh-8r","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/vanwilgenburg.wordpress.com\/523","i18n":{"view":"View Site","follow":"Follow","following":"Following","edit":"Edit","login":"Log In","signup":"Sign Up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: INove","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editFollows":"Manage Sites I Follow","editSubs":"Manage Subscriptions","viewReader":"View Site in the Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/vanwilgenburg.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F\">Log in now.<\/a>"}};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/saved_resource(4)"></script><div id="actionbar" class="actnbr-pub-inove actnbr-has-follow actnbr-hidden"><ul><li class="actnbr-btn actnbr-hidden"> 			    	<a class="actnbr-action actnbr-actn-follow" href=""><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a> 			    	<div class="actnbr-popover tip tip-top-left actnbr-notice"> 			    		<div class="tip-arrow"></div> 			    		<div class="tip-inner actnbr-follow-bubble"></div> 			    	</div> 			    </li><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename actnbr-hidden"><a href="http://vanwilgenburg.wordpress.com/"><img alt="" src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/void.gif" class="avatar avatar-36" height="36" width="36"> Jeroen van Wilgenburg</a></li> 				   	<li class="actnbr-folded-customize actnbr-hidden"><a href="https://vanwilgenburg.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Customize<span></span></span></a></li> 				    <li class="actnbr-folded-follow actnbr-hidden"><a class="actnbr-action actnbr-actn-follow" href=""><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a></li> 						<li class="actnbr-signup actnbr-hidden"><a href="https://wordpress.com/start/">Sign Up</a></li> 				    <li class="actnbr-login actnbr-hidden"><a href="https://vanwilgenburg.wordpress.com/wp-login.php?redirect_to=https%3A%2F%2Fvanwilgenburg.wordpress.com%2F2016%2F09%2F19%2Fgetting-started-with-akka-stream-kafka%2F">Log In</a></li> 				     				    <li class="actnbr-shortlink actnbr-hidden"><a href="http://wp.me/p1KLmh-8r">Copy shortlink</a></li> 				     				     				     				    <li class="actnbr-subs actnbr-hidden"><a href="https://subscribe.wordpress.com/">Manage Subscriptions</a></li> 				    <li class="actnbr-fold actnbr-hidden"><a href="">Collapse this bar</a></li> 			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.async = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			&lt;p class="robots-nocontent"&gt;&lt;img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=7518284&amp;c3=&amp;c4=&amp;c5=&amp;c6=&amp;c15=&amp;cv=2.0&amp;cj=1" alt="" style="display:none;" width="1" height="1" /&gt;&lt;/p&gt;
+		</noscript><script src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/w.js" type="text/javascript" async="" defer=""></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'25921473','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'25921473','v':'wpcom','tz':'0','user_id':'0','post':'523','subd':'vanwilgenburg'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkPS9sL0ViLndld3BuVT01Unp2dX5PUExlSmEmeCZpdDk9Q1NPMlFYW1pBXzBRckMwaEpqcE4lS09yZnJKYVAlbkdxWzBNQjJJeUo4QzJPNUI3c34rPVdQTXlGeElWdkNzNWN6RlNGRThQVFh3Jnpbc0lQMFFrdmpSb1ZEbTdwZENpdWMzW0hROURSNEprQ2JvMnxweFZ+eVZ+SkFhSWVlRXd6cyt2VXYxV2llRWdiVF04SDFNTi03cENiL0tnUmlmLUcvS1puU0EzMmV3UlszazdmS3Azb2ZdMFQtRTA1NWoxMzNUYnUwLTZINFEv'}]);
+_stq.push([ 'clickTrackerInit', '25921473', '523' ]);
+	</script>
+<noscript>&lt;img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /&gt;</noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+
+<!--
+	generated in 0.172 seconds
+	71559 bytes batcached for 300 seconds
+-->
+<img src="./Getting started with Akka Stream Kafka – Using Kafka the reactive streams way _ Jeroen van Wilgenburg_files/g.gif" alt=":)" id="wpstats"></body></html>
