@@ -1,0 +1,15 @@
+{
+  "name": "webpack-first",
+  "version": "1.0.0",
+  "description": "webpack get start",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "node"
+  ],
+  "author": "logan",
+  "license": "ISC"
+}
