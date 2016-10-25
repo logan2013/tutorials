@@ -1,0 +1,17 @@
+NIO
+. Channels move blocks of data into and out of buffers to and from various I/O sources such as Socket, datagrams, File and so forth.
+. Each SocketChannel is associated with a peer Socket
+. SocketChannel.open() does not immediately connect. It creates an initially unconnectetd socket that must be connected later using the connect() method.
+
+. The read() method of SocketChannel
+If the channel is blocking, this method will read a least on byte or return -1 or throw an exception
+If the channel is nonblocking, however, this method may reaturn 0.
+
+. Just as with regular sockets, you should close a channel when you're done with it to free up the port and any other resource it may using
+
+. ServerSocketChannel.open(). A factory method is rather than a constructor so that different virtual machines can provide different implementations of this class
+
+Netty
+. Given that inbound and outbound operations are distinct, you might wonder what happens when the two categories of handlers are mixed in the same ChannelPipeline.
+Although inbound and outbound handlers are extend ChannelHandler. Netty distinguishes implementation of ChannelInboundHandler and ChannelOutboundHandler
+and ensures that the data is passed only between handlers of the same directional type.
