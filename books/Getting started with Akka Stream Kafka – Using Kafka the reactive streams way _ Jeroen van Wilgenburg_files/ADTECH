@@ -1,0 +1,4 @@
+document.write("<iframe seamless=\"seamless\" style=\"width:0px;height:0px;border:none;position:absolute;\" src=\"//delivery.g.switchadhub.com/adserver/passback.html\"></iframe>\n");
+
+
+document.write('<img src="https://atpixelus.alephd.com/post_adtech?xH3z8opNzJvJ6rtndTDAjCF-nK18PSlu4ycpBzErLGHUYiTtjPgnD-JiUjDtBwZXnZbPNPaCQpnU7bHPCFr8.G77vCmlBUSvWjQTfBpD2N8BWnjX-zOWsFoxZPUAp62v-0Oj2cDG5vz77Y2Jj3Ojz0CcS2WEnxcPcIT8EEGCynKHhzk-hOedFX8Dp4vNUe0SqK.TsP15dsjuk2ECDdbMvOU.XRjrisk4QHJz6a-Ll9BLSow8vgdRCF68vaFmDhpm-qCdCnQN8gcl6Hk-ZkuF2g==" width="1" height="1"  style="display:none;">');
