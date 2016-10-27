@@ -11,7 +11,13 @@ If the channel is nonblocking, however, this method may reaturn 0.
 
 . ServerSocketChannel.open(). A factory method is rather than a constructor so that different virtual machines can provide different implementations of this class
 
-Netty
+#Netty
 . Given that inbound and outbound operations are distinct, you might wonder what happens when the two categories of handlers are mixed in the same ChannelPipeline.
 Although inbound and outbound handlers are extend ChannelHandler. Netty distinguishes implementation of ChannelInboundHandler and ChannelOutboundHandler
 and ensures that the data is passed only between handlers of the same directional type.
+
+. Any operation whose name starts with read or skip will retrieve or skip the data at the current readerIndex
+and increase it by the number of bytes read.
+
+. Any operation whose name starts with write will start writing data at the current writerIndex,
+increasing it by the number of bytes written. 
