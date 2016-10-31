@@ -1,4 +1,4 @@
-NIO
+#NIO
 . Channels move blocks of data into and out of buffers to and from various I/O sources such as Socket, datagrams, File and so forth.
 . Each SocketChannel is associated with a peer Socket
 . SocketChannel.open() does not immediately connect. It creates an initially unconnectetd socket that must be connected later using the connect() method.
@@ -10,6 +10,11 @@ If the channel is nonblocking, however, this method may reaturn 0.
 . Just as with regular sockets, you should close a channel when you're done with it to free up the port and any other resource it may using
 
 . ServerSocketChannel.open(). A factory method is rather than a constructor so that different virtual machines can provide different implementations of this class
+
+. *You will also want to remove the key from the iterator to tell the selector that you've handled it.*
+  *Otherwise, the selector will keep telling you about it on future passes through the loop* 
+  
+* A single channel can be registered with multiple selectors
 
 #Netty
 . Given that inbound and outbound operations are distinct, you might wonder what happens when the two categories of handlers are mixed in the same ChannelPipeline.
