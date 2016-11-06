@@ -47,7 +47,7 @@
 	'use strict';
 
 	var foo = function foo() {
-	    console.log('it works');
+	    console.log('it works fine');
 	};
 
 	foo();

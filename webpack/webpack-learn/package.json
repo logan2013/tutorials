@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "serve": "webpack-dev-server --hot --open --inline",
-    "build": "webpack"
+    "build": "webpack",
+    "lint": "eslint --cache --quiet app/**"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,13 @@
     "babel-loader": "^6.2.7",
     "babel-preset-es2015": "^6.18.0",
     "eslint": "^3.9.1",
+    "ghooks": "^1.3.2",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
+  },
+  "config": {
+    "ghooks": {
+      // "pre-commit": "npm run lint"
+    }
   }
 }
