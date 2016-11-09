@@ -1,0 +1,1 @@
+﻿https://yakovfain.com/2016/08/11/angular-2-hello-world-and-the-guinness-book/
