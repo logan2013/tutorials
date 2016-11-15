@@ -4,7 +4,7 @@ import TodoHeader from "./TodoHeader.jsx";
 import TodoForm from "./TodoForm.jsx";
 import TodoList from "./TodoList.jsx";
 
-module.exports = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {data: []};
     },
@@ -34,8 +34,8 @@ module.exports = React.createClass({
             <div className="todo">
 
                 <TodoHeader count={this.state.data.length}/>
-                <TodoForm onTodoSubmit={this.handleTodoSubmit} />
-                <TodoList data={this.state.data} />
+                <TodoForm onTodoSubmit={this.handleTodoSubmit}/>
+                <TodoList data={this.state.data}/>
 
             </div>
         )

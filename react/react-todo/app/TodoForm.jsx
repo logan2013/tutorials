@@ -1,6 +1,6 @@
 import React  from  "react";
 
-export  default React.createClass({
+export default React.createClass({
     getInitialState: function () {
         console.log("inside todo form of initial");
 
@@ -16,7 +16,7 @@ export  default React.createClass({
         e.preventDefault();
         this.props.onTodoSubmit({user: this.state.user, task: this.state.task});
 
-        this.setState({user: "", task : ""});
+        this.setState({user: "", task: ""});
     },
 
     render: function () {
