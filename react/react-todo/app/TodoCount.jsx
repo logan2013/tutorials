@@ -1,10 +1,11 @@
 import React  from  "react";
 
-export default React.createClass({
-        render: function () {
-            return (
-                <div>{this.props.count}</div>
-            )
-        }
+class TodoCount extends React.Component {
+    render () {
+        return (
+            <div>{this.props.count}</div>
+        )
     }
-);
+}
+
+export default TodoCount;

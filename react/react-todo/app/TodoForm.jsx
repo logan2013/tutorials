@@ -1,6 +1,6 @@
 import React  from  "react";
 
-export  default React.createClass({
+export default React.createClass({
     getInitialState: function () {
         console.log("inside todo form of initial");
 
