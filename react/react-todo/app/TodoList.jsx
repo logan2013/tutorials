@@ -1,7 +1,7 @@
-var React = require("react");
-var TodoItem = require("./TodoItem.jsx");
+import React  from  "react";
+import TodoItem  from "./TodoItem.jsx";
 
-module.exports = React.createClass({
+export default React.createClass({
     render: function () {
         var todoTasks = this.props.data.map(function (todoItem) {
             return (

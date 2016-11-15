@@ -1,7 +1,7 @@
-var React = require("react");
-var TodoCount = require("./TodoCount.jsx")
+import React  from  "react";
+import TodoCount from "./TodoCount.jsx";
 
-module.exports = React.createClass({
+export  default React.createClass({
         render: function () {
             return (
                 <nav>Header <TodoCount count={this.props.count} /></nav>

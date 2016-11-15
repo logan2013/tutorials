@@ -1,6 +1,6 @@
-var React = require("react");
+import React  from  "react";
 
-module.exports = React.createClass({
+export default React.createClass({
         render: function () {
             return (
                 <li> {this.props.user} - {this.props.task}</li>

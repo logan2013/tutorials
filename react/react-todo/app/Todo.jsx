@@ -1,8 +1,8 @@
-var React = require("react");
+import React  from  "react";
 
-var TodoHeader = require("./TodoHeader.jsx");
-var TodoForm = require("./TodoForm.jsx");
-var TodoList = require("./TodoList.jsx");
+import TodoHeader from "./TodoHeader.jsx";
+import TodoForm from "./TodoForm.jsx";
+import TodoList from "./TodoList.jsx";
 
 module.exports = React.createClass({
     getInitialState: function () {
