@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My first React exmplle</title>
+
+</head>
+<body>
+
+<div id="greeting-div"></div>
+
+<script src="local-js/react.js"></script>
+<script src="local-js/react-dom.js"></script>
+<script src="local-js/browser.min.js"></script>
+
+<script type="text/babel">
+
+    var Greeting = React.createClass({
+        render: function () {
+            return (
+                    <p>Hello, Universe</p>
+            );
+        }
+    });
+
+    ReactDOM.render(<Greeting/>, document.getElementById("greeting-div"));
+
+</script>
+</body>
+</html>
