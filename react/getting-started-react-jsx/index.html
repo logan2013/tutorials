@@ -13,39 +13,6 @@
 <script src="local-js/react-dom.js"></script>
 <script src="local-js/browser.min.js"></script>
 
-<script type="text/babel">
-
-    var MessageView = React.createClass({
-        render: function () {
-            return (
-                    <p>{ this.props.message }</p>
-            );
-        }
-    });
-
-    var RandomMessage = React.createClass({
-        getInitialState: function () {
-            return {message: "Hello, Universe"};
-        },
-        _onClick: function () {
-            var messages = ["Hello, World", "Hello, Planet", "Hello, Universe"];
-
-            var randomMessage = messages[Math.floor(Math.random() * 3)];
-
-            console.log(randomMessage);
-            this.setState({message: randomMessage});
-        },
-        render: function () {
-            return (
-                    <div>
-                        <MessageView message={this.state.message}/>
-                        <p><input type="button" onClick={this._onClick} value="Change Message"/></p>
-                    </div>
-            );
-        }
-    });
-
-    ReactDOM.render(<RandomMessage/>, document.getElementById("greeting-div"));
-</script>
+<script type="text/babel" src="radom-message.jsx"></script>
 </body>
 </html>
