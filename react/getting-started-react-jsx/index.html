@@ -18,13 +18,17 @@
     var Greeting = React.createClass({
         render: function () {
             return (
-                    <p>Hello, Universe</p>
+                    <p>{this.props.message}</p>
             );
         }
     });
 
-    ReactDOM.render(<Greeting/>, document.getElementById("greeting-div"));
+    setInterval(function () {
+        var messages = ["Hello, World", "Hello, Planet", "Hello, Universe"];
+        var randomMessage = messages[Math.floor(Math.random() * 3)];
 
+        ReactDOM.render(<Greeting message={randomMessage}/>, document.getElementById("greeting-div"));
+    }, 2000);
 </script>
 </body>
 </html>
