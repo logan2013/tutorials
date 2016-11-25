@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<canvas id="viewport"></canvas>
+	
+	<script type="text/javascript">
+	
+	var canvas = document.getElementById("viewport");
+	var context = canvas.getContext("2d");
+	
+	var socket;
+	
+	if(window.WebSocket) {
+		socket = new WebSocket("ws://localhost:8080/websocket");
+		socket.binaryType = "arraybuffer";
+		socket.onmessage = function(event) {
+			draw(event.data);
+		};
+	} else {
+		aler("Your browser does not support Web Socket");
+	}
+	
+	
+	function draw(imgData) {
+		var b64imgData = arrayBufferToBase64(imgData);
+		
+		var img = new Image();
+		img.src = "data:image/jpeg;base64," + b64imgData;
+		
+		canvas.width = img.width;
+		canvas.height = img.height;
+		
+		context.drawImage(img, 0, 0, 640, 480);
+	}
+	
+	function arrayBufferToBase64(buffer) {
+		var binary = "";
+		var bytes = new Uint8Array(buffer);
+		
+		var len = bytes.byteLength;
+		
+		for (var i = 0; i < len; i++) {
+			binary += String.fromCharCode(bytes[i]);
+		}
+		
+		return window.btoa(binary);
+	}
+	</script>
+</body>
+</html>
