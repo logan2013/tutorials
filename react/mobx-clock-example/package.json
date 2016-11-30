@@ -1,0 +1,22 @@
+{
+  "name": "mobx-clock-example",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "0.7.0"
+  },
+  "dependencies": {
+    "mobx": "^2.6.3",
+    "mobx-react": "^4.0.3",
+    "mobx-react-devtools": "^4.2.10",
+    "moment": "^2.17.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
