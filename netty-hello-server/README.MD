@@ -29,3 +29,12 @@ increasing it by the number of bytes written.
 
 . get() and set() operations that start at a given index and leave it unchanged
 . read() and write() operations that start at a given index and adjust it by the number of bytes accessed
+
+
+
+
+
+
+
+http://www.baeldung.com/java-nio2-async-socket-channel
+NIO2学习
