@@ -1,0 +1,1 @@
+https://www.sitepoint.com/object-oriented-javascript-deep-dive-es6-classes/
