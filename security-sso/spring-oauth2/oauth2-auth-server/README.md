@@ -23,3 +23,12 @@ code：第4步获取的authorization code
 
 比如：
 redirect_uri=http://client_host?key=value&grant_type=authorization_code&code=UG8zRo
+
+
+接下来实现：
+
+resource owner信息保存到数据库，本示例保存在内存，hello/world
+
+oauth2 client信息保存到数据，本示例保存在内存，simpleClient/secret
+
+认证使用jwt
