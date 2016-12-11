@@ -29,3 +29,8 @@ increasing it by the number of bytes written.
 
 . get() and set() operations that start at a given index and leave it unchanged
 . read() and write() operations that start at a given index and adjust it by the number of bytes accessed
+
+. Channel通常的生命周期
+ChannelRegistered -> ChannelActive -> ChannelInactive -> ChannelUnregistered
+
+. write并方法不会将message写到底层的Socket，仅仅放到队列里。要写到Socket的话，调用flush()或者writeAndFlush()
