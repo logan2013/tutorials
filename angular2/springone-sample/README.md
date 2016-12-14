@@ -1,25 +1,4 @@
-https://www.sitepoint.com/angular-2-tutorial/
-
-# Angular CLI
-. 生成Angular2应用的样板代码
-. 给已存在的Angular2应用增加特性（components, directives, services, pipes, etc)
-
-# Todo application
-. Todo class表示单个的todo
-. TodoService对todos进行增删改
-. TodoApp组件显示用户接口
-
-# Angular's template syntax
-. [property] = "expression": 设置property的值为expression的结果
-. (event) = "statement": 当event发生的时候执行statement
-. [(property)] = "expression": 通过expression创建双向绑定
-. [class.special] = "expression": 当expression结果为true时，给元素增加special的CSS类
-. [style.color] = "expression": 设置CSS的corlor属性为expression的结果
-
-# expression context 表达式上下文
-一个组件的表达式上下文是指这个组件的实例
-
-# Angular2TodoApp
+# SpringoneSample
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.20-4.
 
