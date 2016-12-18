@@ -12,5 +12,13 @@ module.exports = {
     output: {
         path: path.join(__dirname, "dist"),
         filename: "[name].bundle.js"
+    },
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            loader: "babel",
+            include: path.join(__dirname, "src")
+
+        }]
     }
 };
