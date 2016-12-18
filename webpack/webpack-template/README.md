@@ -1,0 +1,1 @@
+1. webpack默认会找项目根目录下的webpack.config.js
