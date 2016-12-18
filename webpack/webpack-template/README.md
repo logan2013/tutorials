@@ -6,3 +6,4 @@ key可以在output-filename作为name参数使用，以区分生成的文件名
 5. preset可以写在webpack.config.js，query属性；可以单独写在.babelrc文件；可以写在package.json
 6. inline:true表示html的内容不用显示在iframe里面
 7. stats: "errors-only"表示webpack-dev-server启动时只显示错误信息
+8. hash: true表示打包的文件名加上hash值
