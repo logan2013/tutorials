@@ -1,3 +1,5 @@
+https://dzone.com/articles/java-holiday-calendar-2016-day-20-break-out-of-the
+
 Java会间断性地清理heap（也就是说执行Garbage Collector或者简称GC），删除不再使用的对象。
 随着heap的增长，清理所需要的时间也随着增长。
 最终GC会运行很多秒或者很多分钟，这是我们就遇到了所谓的“GC之战”
