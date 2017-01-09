@@ -2,14 +2,13 @@ package com.imtzp.exceptions.under.hood;
 
 public class Sample {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		try {
-			Integer.parseInt(args[0]);
-		} catch (NumberFormatException e) {
-			System.out.println("catch");
-			e.printStackTrace();
+			throw new Exception();
+		} catch (Exception e) {
+			System.out.print("Caught!");
 		} finally {
-			System.out.println("finally");
+			System.out.print("Finally!");
 		}
 	}
 }
