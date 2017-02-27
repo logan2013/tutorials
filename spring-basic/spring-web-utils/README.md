@@ -1,0 +1,7 @@
+http://www.baeldung.com/spring-webutils-servletrequestutils
+
+Spring中的工具类WebUtils和SevletRequestUtils
+
+WebUtils：setSessionAttribute等
+
+SevletRequestUtils: getStringParameter等
