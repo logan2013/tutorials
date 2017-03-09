@@ -1,4 +1,5 @@
 https://www.javacodegeeks.com/2016/12/implement-thread-pool-java.html
+https://dzone.com/articles/scalable-java-thread-pool-executor
 
 如何实现一个线程池
 
