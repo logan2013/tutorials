@@ -1,0 +1,3 @@
+https://www.javacodegeeks.com/2016/12/spring-boot-application-context-hierarchy.html
+
+Spring Application Context管理所有注册到它上面的beans的生命周期。Applicat Context层次体系提供了重用beans的方式，父context中定义的的beans在子context中是可以访问的

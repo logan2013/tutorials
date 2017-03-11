@@ -47,3 +47,9 @@ public class com.nhn.user.UserService {
 }
 
 add方法的第四行（5: invokevirtual #20）表示调用方法。V表示无返回值
+
+. 符号引用
+在Java中，类会被编译成class文件。在编译时，Java类并不知道其引用类的实际内存地址，因此只能使用符号来代替。
+比如org.simple.People类引用了org.simple.Tool类，在编译时People类并不知道Tool类的实际内存地址，
+因此只能使用符号org.simple.Tool（假设，实际是#数字）来表示Tool类的内存地址。而在类加载器加载People类时，可以通过虚拟机获取Tool类的实际内存地址，
+此时便可以将符号替换为org.simple.Tool替换为Tool类的实际内存地址，即直接引用地址。
