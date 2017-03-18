@@ -1,0 +1,1 @@
+pom文件中的<start-class>解决多个main方法的问题

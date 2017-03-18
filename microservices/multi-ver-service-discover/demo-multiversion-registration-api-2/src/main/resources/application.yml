@@ -1,0 +1,48 @@
+﻿server:
+  port: ${appPort:8700}
+
+# Spring dispatcher servlet (APIs) and actuator endpoint path (/admin/info, /admin/health, ...)
+server.servlet-path: /
+management.context-path: /admin
+
+# http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
+endpoints:
+  enabled: false
+  info:
+    enabled: true
+  health:
+    enabled: true
+  metrics:
+    enabled: true
+
+info:
+  app:
+    name: @project.artifactId@
+  build:
+    version: @project.version@
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+
+demo-multiversion-registration-api1-v1:
+   ribbon:
+     # Eureka vipAddress of the target service
+     DeploymentContextBasedVipAddresses: demo-multiversion-registration-api-1
+     NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+     # Interval to refresh the server list from the source (ms)
+     ServerListRefreshInterval: 30000
+
+demo-multiversion-registration-api1-v2:
+   ribbon:
+     # Eureka vipAddress of the target service
+     DeploymentContextBasedVipAddresses: demo-multiversion-registration-api-1
+     NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+     # Interval to refresh the server list from the source (ms)
+     ServerListRefreshInterval: 30000
+
+# Get service metadata from Eureka
+# http://localhost:8000/eureka/apps/DEMO-MULTIVERSION-REGISTRATION-API-1

@@ -1,0 +1,40 @@
+﻿server:
+  port: ${appPort:8000}
+
+management.contextPath: /admin
+
+info:
+  app:
+    name: @project.artifactId@
+  build:
+    version: @project.version@
+
+eureka:
+  environment: ${environment}
+  datacenter: ${dataCenter}
+  enableSelfPreservation: false
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: ${peerUrls}
+  instance:
+    hostname: ${hostName}
+    statusPageUrlPath: ${management.contextPath}/info
+    healthCheckUrlPath: ${management.contextPath}/health
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+
+---
+spring:
+  profiles: standalone
+hostName: localhost
+environment: local
+dataCenter: ${hostName}
+peerUrls: http://localhost:${server.port}/eureka/
+
+---
+spring:
+  profiles: peerAware
+# -DappPort=<port> -DhostName=<hostname> -DdataCenter=<data center> -e environment=<dev|test|staging|prod> -DpeerUrls=http://host1:port1/eureka/,http://host2:port2/eureka/,...

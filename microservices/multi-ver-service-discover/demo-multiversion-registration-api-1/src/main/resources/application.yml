@@ -1,0 +1,55 @@
+﻿server:
+  port: ${appPort:8600}
+
+# Spring dispatcher servlet (APIs) and actuator endpoint path (/admin/info, /admin/health, ...)
+server.servlet-path: /
+management.context-path: /admin
+
+# http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
+endpoints:
+  enabled: false
+  info:
+    enabled: true
+  health:
+    enabled: true
+  metrics:
+    enabled: true
+
+info:
+  app:
+    name: @project.artifactId@
+  build:
+    version: @project.version@
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+  instance:
+    hostname: ${hostName}
+    statusPageUrlPath: ${management.context-path}/info
+    healthCheckUrlPath: ${management.context-path}/health
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+
+---
+spring:
+   profiles: v1
+eureka:
+  instance:
+    metadataMap:
+      versions: v1
+
+---
+spring:
+   profiles: v1v2
+eureka:
+  instance:
+    metadataMap:
+      versions: v1,v2
+
+# Get service metadata from Eureka
+# http://localhost:8000/eureka/apps/DEMO-MULTIVERSION-REGISTRATION-API-1

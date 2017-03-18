@@ -1,0 +1,3 @@
+﻿spring:
+  application:
+    name: demo-multiversion-registration-api-2
