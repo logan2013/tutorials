@@ -1,0 +1,6 @@
+https://dzone.com/articles/spring-boot-applicationrunner-and-commandlinerunne
+
+Spring Boot提供了两个接口CommandLineRunner和ApplicationRunner，在程序完全启动时，以运行指定的代码。同时可以访问运行spring boot程序是的命令行参数
+
+你可以参考spring-batch中的org.springframework.boot.autoconfigure.batch.JobLauncherCommandLineRunner，它实现了CommandLineRunner接口，
+在应用启动的时候启动batch jobs
