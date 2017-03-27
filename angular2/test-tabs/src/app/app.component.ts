@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {OpService} from "./op.service";
-import {OpItem} from "./op-item";
+import {TabItemData} from "./tab-item-data";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import {OpItem} from "./op-item";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  ads: OpItem[];
+  ads: TabItemData[];
 
   constructor(private adService: OpService) {}
 

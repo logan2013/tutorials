@@ -14,5 +14,7 @@ export class HeroProfileOpComponent implements OpComponent {
 
   @Input() data: any;
 
-  static TITLE: string = "功能11";
+  static getTitle(): string {
+    return "功能1";
+  }
 }

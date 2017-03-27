@@ -10,8 +10,9 @@ import {OpComponent}  from './op.component';
 })
 export class HeroJobOpComponent implements OpComponent {
 
-
-
   @Input() data: any;
-  static TITLE : string = "功能2";
+
+  static getTitle(): string {
+    return "功能2";
+  }
 }
