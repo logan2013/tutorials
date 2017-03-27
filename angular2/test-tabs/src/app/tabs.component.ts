@@ -1,37 +1,59 @@
-import {Component, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
+import {Component, ContentChildren, QueryList} from '@angular/core';
 import {TabComponent} from './tab.component';
+import {SharedService} from "./shared.service";
+import {OpItem} from "./op-item";
 
 @Component({
   selector: 'tabs',
   template: `
     <ul class="nav nav-tabs">
-      <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
-        <a href="#">{{tab.title}}</a>
+      <li *ngFor="let tab of initTabs" (click)="selectTab(tab)" [class.active]="tab.active">
+        <a href="javascript:void(0);">{{tab.title}}</a>
+        <span (click)="closeTab(tab)">X</span>
       </li>
+      <ng-content></ng-content>
     </ul>
   `
 })
-export class TabsComponent implements AfterContentInit {
+export class TabsComponent {
 
-  @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
+  @ContentChildren(TabComponent) initTabs: QueryList<TabComponent>;
 
-  // contentChildren are set
-  ngAfterContentInit() {
-    // get all active tabs
-    let activeTabs = this.tabs.filter((tab)=>tab.active);
+  tabs: TabComponent[];
 
-    // if there is no active tab set, activate the first
-    if (activeTabs.length === 0) {
-      this.selectTab(this.tabs.first);
+  constructor(private _sharedService: SharedService) {
+
+    this._sharedService.selectOp$.subscribe(opItem => this.selectTabFromOp(opItem));
+
+    console.log(this.initTabs);
+  }
+
+  selectTabFromOp(opItem: OpItem) {
+    let tabs: TabComponent[] = this.initTabs.toArray().filter(tab => !tab.title);
+    if (tabs.length) {
+      tabs[0].title = opItem.title;
+      this.selectTab(tabs[0]);
+      tabs[0].loadComponent(opItem);
     }
   }
 
+  /**
+   * 选择tab
+   * @param tab
+   */
   selectTab(tab: TabComponent) {
-    // deactivate all tabs
-    this.tabs.toArray().forEach(tab => tab.active = false);
 
-    // activate the tab the user has clicked on.
+    this.initTabs.toArray().forEach(tab => tab.active = false);
+
     tab.active = true;
   }
 
+  /**
+   * 关闭tab
+   *
+   * @param tab
+   */
+  closeTab(tab: TabComponent) {
+
+  }
 }

@@ -4,30 +4,31 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
-import {AdBannerComponent} from "./ad-banner.component";
-import {HeroProfileComponent} from "./hero-profile.component";
-import {HeroJobAdComponent} from "./hero-job-ad.component";
-import {AdService} from "./add.service";
-import {AdDirective} from "./ad.directive";
+import {HeroProfileOpComponent} from "./hero-profile-op.component";
+import {HeroJobOpComponent} from "./hero-job-op.component";
+import {OpService} from "./op.service";
+import {OpDirective} from "./op.directive";
 import {TabComponent} from "./tab.component";
 import {TabsComponent} from "./tabs.component";
+import {OpButton} from "./op-button";
+import {SharedService} from "./shared.service";
 @NgModule({
   declarations: [
     AppComponent,
-    AdBannerComponent,
-    HeroJobAdComponent,
-    HeroProfileComponent,
-    AdDirective,
+    HeroJobOpComponent,
+    HeroProfileOpComponent,
+    OpDirective,
     TabComponent,
-    TabsComponent
+    TabsComponent,
+    OpButton
   ],
-  entryComponents: [HeroJobAdComponent, HeroProfileComponent],
+  entryComponents: [HeroJobOpComponent, HeroProfileOpComponent],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [AdService],
+  providers: [OpService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

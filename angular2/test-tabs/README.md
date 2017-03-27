@@ -1,3 +1,6 @@
+
+点击按钮通知其它组件？？
+
 # DynamicComponent
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.

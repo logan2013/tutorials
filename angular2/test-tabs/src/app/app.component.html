@@ -1,6 +1,12 @@
 <div>
+  <div>
+    <li *ngFor="let op of ads">
+      <op-button [opItem]="op"></op-button>
+    </li>
+  </div>
+
   <tabs>
-    <tab [tabTitle]="'Tab 1'">Tab 1 Content</tab>
-    <tab tabTitle="Tab 2">Tab 2 Content</tab>
+    <tab></tab>
+    <tab></tab>
   </tabs>
 </div>

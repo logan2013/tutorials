@@ -1,5 +1,5 @@
 import {Component, Input}  from '@angular/core';
-import {AdComponent}       from './ad.component';
+import {OpComponent}       from './op.component';
 @Component({
   template: `
     <div class="hero-profile">
@@ -10,6 +10,9 @@ import {AdComponent}       from './ad.component';
     </div>
   `
 })
-export class HeroProfileComponent implements AdComponent {
+export class HeroProfileOpComponent implements OpComponent {
+
   @Input() data: any;
+
+  static TITLE: string = "功能11";
 }

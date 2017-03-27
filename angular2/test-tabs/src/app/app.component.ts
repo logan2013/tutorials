@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AdService} from "./add.service";
-import {AdItem} from "./ad-item";
+import {OpService} from "./op.service";
+import {OpItem} from "./op-item";
 
 @Component({
   selector: 'app-root',
@@ -8,8 +8,10 @@ import {AdItem} from "./ad-item";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  ads: AdItem[];
-  constructor(private adService: AdService) {}
+  ads: OpItem[];
+
+  constructor(private adService: OpService) {}
+
   ngOnInit() {
     this.ads = this.adService.getAds();
   }
