@@ -1,51 +1,31 @@
-import {Component, ContentChildren, QueryList} from '@angular/core';
+import {Component, ContentChildren, QueryList, ComponentFactoryResolver} from '@angular/core';
 import {TabComponent} from './tab.component';
 import {SharedService} from "./shared.service";
-import {OpItem} from "./op-item";
+import {TabItemData} from "./tab-item-data";
 
 @Component({
   selector: 'tabs',
-  template: `
-    <ul class="nav nav-tabs">
-      <li *ngFor="let tab of initTabs" (click)="selectTab(tab)" [class.active]="tab.active">
-        <a href="javascript:void(0);">{{tab.title}}</a>
-        <span (click)="closeTab(tab)">X</span>
-      </li>
-      <ng-content></ng-content>
-    </ul>
-  `
+  templateUrl: './tabs.component.html'
 })
 export class TabsComponent {
 
-  @ContentChildren(TabComponent) initTabs: QueryList<TabComponent>;
-
-  tabs: TabComponent[];
+  tabsForOpItems: TabItemData[] = [];
 
   constructor(private _sharedService: SharedService) {
 
     this._sharedService.selectOp$.subscribe(opItem => this.selectTabFromOp(opItem));
-
-    console.log(this.initTabs);
   }
 
-  selectTabFromOp(opItem: OpItem) {
-    let tabs: TabComponent[] = this.initTabs.toArray().filter(tab => !tab.title);
-    if (tabs.length) {
-      tabs[0].title = opItem.title;
-      this.selectTab(tabs[0]);
-      tabs[0].loadComponent(opItem);
-    }
+  selectTabFromOp(opItem: TabItemData) {
+    this.tabsForOpItems.push(opItem);
   }
 
   /**
    * 选择tab
    * @param tab
    */
-  selectTab(tab: TabComponent) {
+  selectTab() {
 
-    this.initTabs.toArray().forEach(tab => tab.active = false);
-
-    tab.active = true;
   }
 
   /**
@@ -53,7 +33,7 @@ export class TabsComponent {
    *
    * @param tab
    */
-  closeTab(tab: TabComponent) {
+  closeTab() {
 
   }
 }

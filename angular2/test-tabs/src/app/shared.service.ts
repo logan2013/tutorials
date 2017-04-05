@@ -1,15 +1,15 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
-import {OpItem} from "./op-item";
+import {TabItemData} from "./tab-item-data";
 
 @Injectable()
 export class SharedService {
 
-  private selectOp = new Subject<OpItem>();
+  private selectOp = new Subject<TabItemData>();
 
   selectOp$ = this.selectOp.asObservable();
 
-  publishData(opItem: OpItem) {
+  publishData(opItem: TabItemData) {
     this.selectOp.next(opItem);
   }
 }

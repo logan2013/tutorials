@@ -1,6 +1,6 @@
 import {Component, Input} from "@angular/core";
 import {SharedService} from "./shared.service";
-import {OpItem} from "./op-item";
+import {TabItemData} from "./tab-item-data";
 
 @Component({
   selector: 'op-button',
@@ -10,7 +10,7 @@ import {OpItem} from "./op-item";
 })
 export class OpButton {
 
-  @Input() opItem: OpItem;
+  @Input() opItem: TabItemData;
 
   constructor(private _sharedService: SharedService) {
   }
