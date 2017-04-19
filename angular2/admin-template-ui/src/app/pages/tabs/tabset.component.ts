@@ -1,6 +1,5 @@
 import {Component, ContentChildren, QueryList, AfterViewInit, Input, EventEmitter, Output} from "@angular/core";
 import {TabComponent} from "./tab.component";
-import {Act1Component} from "./act1.component";
 @Component({
   selector: "tabset",
   template: `

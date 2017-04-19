@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router, Routes} from '@angular/router';
 import * as _ from 'lodash';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class BaMenuService {
@@ -10,28 +10,32 @@ export class BaMenuService {
 
   protected _currentMenuItem = {};
 
-  constructor(private _router:Router) { }
+  constructor(private _router: Router) {
+  }
 
   /**
    * Updates the routes in the menu
    *
    * @param {Routes} routes Type compatible with app.menu.ts
    */
-  public updateMenuByRoutes(routes: Routes) {
+  public updateMenuByRoutes(routes) {
     let convertedRoutes = this.convertRoutesToMenus(_.cloneDeep(routes));
+
+    console.log(convertedRoutes);
+
     this.menuItems.next(convertedRoutes);
   }
 
-  public convertRoutesToMenus(routes:Routes):any[] {
+  public convertRoutesToMenus(routes: Routes): any[] {
     let items = this._convertArrayToItems(routes);
     return this._skipEmpty(items);
   }
 
-  public getCurrentItem():any {
+  public getCurrentItem(): any {
     return this._currentMenuItem;
   }
 
-  public selectMenuItem(menuItems:any[]):any[] {
+  public selectMenuItem(menuItems: any[]): any[] {
     let items = [];
     menuItems.forEach((item) => {
       this._selectItem(item);
@@ -48,7 +52,7 @@ export class BaMenuService {
     return items;
   }
 
-  protected _skipEmpty(items:any[]):any[] {
+  protected _skipEmpty(items: any[]): any[] {
     let menu = [];
     items.forEach((item) => {
       let menuItem;
@@ -68,7 +72,7 @@ export class BaMenuService {
     return [].concat.apply([], menu);
   }
 
-  protected _convertArrayToItems(routes:any[], parent?:any):any[] {
+  protected _convertArrayToItems(routes: any[], parent?: any): any[] {
     let items = [];
     routes.forEach((route) => {
       items.push(this._convertObjectToItem(route, parent));
@@ -76,8 +80,8 @@ export class BaMenuService {
     return items;
   }
 
-  protected _convertObjectToItem(object, parent?:any):any {
-    let item:any = {};
+  protected _convertObjectToItem(object, parent?: any): any {
+    let item: any = {};
     if (object.data && object.data.menu) {
       // this is a menu object
       item = object.data.menu;
@@ -100,6 +104,10 @@ export class BaMenuService {
       item.children = this._convertArrayToItems(object.children, item);
     }
 
+    if (!!object.actClass) {
+      item.actClass = object.actClass;
+    }
+
     let prepared = this._prepareItem(item);
 
     // if current item is selected or expanded - then parent is expanded too
@@ -110,18 +118,22 @@ export class BaMenuService {
     return prepared;
   }
 
-  protected _prepareItem(object:any):any {
+  protected _prepareItem(object: any): any {
     if (!object.skip) {
       object.target = object.target || '';
-      object.pathMatch = object.pathMatch  || 'full';
+      object.pathMatch = object.pathMatch || 'full';
       return this._selectItem(object);
     }
 
     return object;
   }
 
-  protected _selectItem(object:any):any {
-    object.selected = this._router.isActive(this._router.createUrlTree(object.route.paths), object.pathMatch === 'full');
+  protected _selectItem(object: any): any {
+
+    // TODO: 根据浏览器URL选中菜单->根据上次打开的tab选中菜单
+
+    // object.selected = this._router.isActive(this._router.createUrlTree(object.route.paths), object.pathMatch === 'full');
+
     return object;
   }
 }

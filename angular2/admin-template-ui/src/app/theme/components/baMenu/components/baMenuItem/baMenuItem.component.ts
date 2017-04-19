@@ -13,6 +13,7 @@ export class BaMenuItem {
 
   @Output() itemHover = new EventEmitter<any>();
   @Output() toggleSubMenu = new EventEmitter<any>();
+  @Output() selectItem = new EventEmitter<any>();
 
   public onHoverItem($event):void {
     this.itemHover.emit($event);
@@ -24,7 +25,21 @@ export class BaMenuItem {
     return false;
   }
 
-  selectItem() {
-    console.log("选择功能....................");
+  public onSelectItem1($event, item) {
+
+    console.log("event in baMenuItem");
+    console.log(item);
+
+    this.selectItem.emit(item);
+    return false;
+  }
+
+  public onSelectItem2($event) {
+
+    console.log("event in baMenuItem menu");
+    console.log($event);
+
+    this.selectItem.emit($event);
+    return false;
   }
 }

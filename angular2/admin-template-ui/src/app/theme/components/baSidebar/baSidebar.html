@@ -1,5 +1,6 @@
 <aside class="al-sidebar" sidebarResize>
   <ba-menu [menuHeight]="menuHeight"
            [sidebarCollapsed]="isMenuCollapsed"
-           (expandMenu)="menuExpand()"></ba-menu>
+           (expandMenu)="menuExpand()"
+           (selectItem)="onSelectItem4($event)"></ba-menu>
 </aside>

@@ -50,7 +50,7 @@ export type StoreType = {
         ReactiveFormsModule,
         NgaModule.forRoot(),
         NgbModule.forRoot(),
-        LoginModule
+        LoginModule,
         PagesModule,
         routing
     ],

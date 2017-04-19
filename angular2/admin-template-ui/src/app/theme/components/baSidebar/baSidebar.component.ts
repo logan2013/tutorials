@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener} from '@angular/core';
+import {Component, ElementRef, HostListener, EventEmitter, Output} from '@angular/core';
 import {GlobalState} from '../../../global.state';
 import {layoutSizes} from '../../../theme';
 
@@ -12,6 +12,8 @@ export class BaSidebar {
   public menuHeight:number;
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
+
+  @Output() selectItem = new EventEmitter<any>();
 
   constructor(private _elementRef:ElementRef, private _state:GlobalState) {
 
@@ -62,5 +64,11 @@ export class BaSidebar {
 
   private _shouldMenuCollapse():boolean {
     return window.innerWidth <= layoutSizes.resWidthCollapseSidebar;
+  }
+
+  public onSelectItem4($event) {
+    console.log("event in baMenu");
+    console.log($event);
+    this.selectItem.emit($event);
   }
 }

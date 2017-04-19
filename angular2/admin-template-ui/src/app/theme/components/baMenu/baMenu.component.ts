@@ -17,6 +17,8 @@ export class BaMenu {
   @Input() menuHeight: number;
 
   @Output() expandMenu = new EventEmitter<any>();
+  @Output() selectItem = new EventEmitter<any>();
+
 
   public menuItems: any[];
   protected _menuItemsSub: Subscription;
@@ -83,5 +85,11 @@ export class BaMenu {
     }
 
     return false;
+  }
+
+  public onSelectItem3($event) {
+    console.log("event in baMenu");
+    console.log($event);
+    this.selectItem.emit($event);
   }
 }
