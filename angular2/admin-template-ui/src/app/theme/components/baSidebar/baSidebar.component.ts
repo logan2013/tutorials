@@ -13,8 +13,6 @@ export class BaSidebar {
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
 
-  @Output() selectItem = new EventEmitter<any>();
-
   constructor(private _elementRef:ElementRef, private _state:GlobalState) {
 
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
@@ -64,11 +62,5 @@ export class BaSidebar {
 
   private _shouldMenuCollapse():boolean {
     return window.innerWidth <= layoutSizes.resWidthCollapseSidebar;
-  }
-
-  public onSelectItem4($event) {
-    console.log("event in baMenu");
-    console.log($event);
-    this.selectItem.emit($event);
   }
 }

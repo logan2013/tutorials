@@ -7,7 +7,7 @@ import { PAGES_MENU } from './pages.menu';
 @Component({
   selector: 'pages',
   template: `
-    <ba-sidebar (selectItem)="openTab($event)"></ba-sidebar>
+    <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
     <div class="al-main">
       <div class="al-content">
@@ -39,11 +39,14 @@ export class Pages {
 
   tabs: any[] = [];
 
-  constructor(private _menuService: BaMenuService,) {
+  constructor(private _menuService: BaMenuService) {
   }
 
   ngOnInit() {
     this._menuService.updateMenuByRoutes(PAGES_MENU);
+    this._menuService.subscribe((item) => {
+        this.openTab(item);
+    });
   }
 
   openTab(item) {
@@ -52,9 +55,6 @@ export class Pages {
       actClass: item.actClass,
       title: item.title
     });
-
-    console.log("in pages");
-    console.log(item);
   }
 
   closeTab(title: string) {
