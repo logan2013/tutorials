@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Routes } from '@angular/router';
+import {Component} from '@angular/core';
 
 import { BaMenuService } from '../theme';
 import { PAGES_MENU } from './pages.menu';
@@ -44,13 +43,10 @@ export class Pages {
 
   ngOnInit() {
     this._menuService.updateMenuByRoutes(PAGES_MENU);
-    this._menuService.subscribe((item) => {
-        this.openTab(item);
-    });
+    this._menuService.subscribe((item) => this.openTab(item));
   }
 
   openTab(item) {
-
     this.tabs.push({
       actClass: item.actClass,
       title: item.title
