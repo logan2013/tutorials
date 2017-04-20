@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { BaMenuService } from '../../services';
@@ -28,7 +27,7 @@ export class BaMenu {
   protected _onRouteChange: Subscription;
   public outOfArea: number = -200;
 
-  constructor(private _router: Router, private _service: BaMenuService, private _state: GlobalState) {
+  constructor(private _service: BaMenuService, private _state: GlobalState) {
   }
 
   public updateMenu(newMenuItems) {
@@ -44,18 +43,6 @@ export class BaMenu {
   }
 
   public ngOnInit(): void {
-    this._onRouteChange = this._router.events.subscribe((event) => {
-
-      if (event instanceof NavigationEnd) {
-        if (this.menuItems) {
-          this.selectMenuAndNotify();
-        } else {
-          // on page load we have to wait as event is fired before menu elements are prepared
-          setTimeout(() => this.selectMenuAndNotify());
-        }
-      }
-    });
-
     this._menuItemsSub = this._service.menuItems.subscribe(this.updateMenu.bind(this));
   }
 

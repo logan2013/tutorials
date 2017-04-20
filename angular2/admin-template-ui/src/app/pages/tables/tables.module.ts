@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { routing }       from './tables.routing';
-import { Tables } from './tables.component';
 import { BasicTables } from './components/basicTables/basicTables.component';
 import { BasicTablesService } from './components/basicTables/basicTables.service';
 import { ResponsiveTable } from './components/basicTables/components/responsiveTable';
@@ -22,11 +20,9 @@ import { SmartTablesService } from './components/smartTables/smartTables.service
     CommonModule,
     FormsModule,
     NgaModule,
-    routing,
     Ng2SmartTableModule,
   ],
   declarations: [
-    Tables,
     BasicTables,
     HoverTable,
     BorderedTable,
@@ -34,11 +30,21 @@ import { SmartTablesService } from './components/smartTables/smartTables.service
     StripedTable,
     ContextualTable,
     ResponsiveTable,
-    SmartTables,
+    SmartTables
   ],
   providers: [
     BasicTablesService,
     SmartTablesService,
+  ],
+  entryComponents: [
+    BasicTables,
+    HoverTable,
+    BorderedTable,
+    CondensedTable,
+    StripedTable,
+    ContextualTable,
+    ResponsiveTable,
+    SmartTables
   ]
 })
 export class TablesModule {

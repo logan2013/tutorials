@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Router, Routes} from '@angular/router';
 import * as _ from 'lodash';
 
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -10,7 +9,7 @@ export class BaMenuService {
 
   protected _currentMenuItem = {};
 
-  constructor(private _router: Router) {
+  constructor() {
   }
 
   /**
@@ -26,7 +25,7 @@ export class BaMenuService {
     this.menuItems.next(convertedRoutes);
   }
 
-  public convertRoutesToMenus(routes: Routes): any[] {
+  public convertRoutesToMenus(routes): any[] {
     let items = this._convertArrayToItems(routes);
     return this._skipEmpty(items);
   }

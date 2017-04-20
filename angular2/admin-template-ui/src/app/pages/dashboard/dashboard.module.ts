@@ -5,7 +5,6 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 
 import { Dashboard } from './dashboard.component';
-import { routing }       from './dashboard.routing';
 
 import { PopularApp } from './popularApp';
 import { PieChart } from './pieChart';
@@ -24,8 +23,7 @@ import { TrafficChartService } from './trafficChart/trafficChart.service';
     CommonModule,
     FormsModule,
     AppTranslationModule,
-    NgaModule,
-    routing
+    NgaModule
   ],
   declarations: [
     PopularApp,
@@ -42,6 +40,15 @@ import { TrafficChartService } from './trafficChart/trafficChart.service';
     PieChartService,
     TodoService,
     TrafficChartService
+  ],
+  entryComponents: [
+    PopularApp,
+    PieChart,
+    TrafficChart,
+    Feed,
+    Todo,
+    Calendar,
+    Dashboard
   ]
 })
 export class DashboardModule {}
