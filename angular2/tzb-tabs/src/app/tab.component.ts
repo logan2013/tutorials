@@ -6,9 +6,7 @@ import {TabContentDirective} from "./tab-content.directive";
 @Component({
   selector: "tab",
   template: `
-  <div>
     <ng-template tab-content></ng-template>
-  </div>
   `
 })
 export class TabComponent implements AfterContentInit {
@@ -23,5 +21,9 @@ export class TabComponent implements AfterContentInit {
 
   ngAfterContentInit(): void {
     this.tabContentDirective.renderTabContent(this.actClass);
+  }
+
+  renderComponent(actClass: any) {
+    this.tabContentDirective.renderTabContent(actClass);
   }
 }

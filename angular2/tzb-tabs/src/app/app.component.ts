@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Act1Component} from "./act1.component";
+import {Act1Component} from "./acts/act1.component";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,9 @@ import {Act1Component} from "./act1.component";
   
   <tabset (closeTab)="closeTab($event)">
   
-  <tab *ngFor="let tab of tabs" [actClass]="tab.actClass" [title]="tab.title"></tab>
+  <div *ngFor="let tab of tabs" >
+    <tab [actClass]="tab.actClass" [title]="tab.title"></tab>
+  </div>
   
   </tabset>
   `,

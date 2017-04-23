@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import {TabComponent} from "./tab.component";
-import {Act1Component} from "./act1.component";
+import {Act1Component, Act1DetailComponent} from "./acts";
 import {TabContentDirective} from "./tab-content.directive";
 import {TabsetComponent} from "./tabset.component";
 
@@ -14,6 +14,7 @@ import {TabsetComponent} from "./tabset.component";
     AppComponent,
     TabComponent,
     Act1Component,
+    Act1DetailComponent,
     TabContentDirective,
     TabsetComponent
   ],
@@ -24,6 +25,6 @@ import {TabsetComponent} from "./tabset.component";
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [Act1Component]
+  entryComponents: [Act1Component, Act1DetailComponent]
 })
 export class AppModule { }

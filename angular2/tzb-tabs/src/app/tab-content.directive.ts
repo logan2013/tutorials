@@ -10,6 +10,6 @@ export class TabContentDirective {
   renderTabContent(actClass: any) {
     this._viewContainerRef.clear();
     let actComponentFactory = this._componentFactoryResolver.resolveComponentFactory(actClass);
-    let actComponentRef = this._viewContainerRef.createComponent(actComponentFactory);
+    this._viewContainerRef.createComponent(actComponentFactory);
   }
 }
