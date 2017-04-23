@@ -1,139 +1,148 @@
 import {Injectable} from '@angular/core';
-import {Router, Routes} from '@angular/router';
 import * as _ from 'lodash';
 
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subject} from "rxjs";
 
 @Injectable()
 export class BaMenuService {
-  menuItems = new BehaviorSubject<any[]>([]);
+    menuItems = new BehaviorSubject<any[]>([]);
 
-  protected _currentMenuItem = {};
+    protected _currentMenuItem = {};
 
-  constructor(private _router: Router) {
-  }
+    private selectOp = new Subject<any>();
 
-  /**
-   * Updates the routes in the menu
-   *
-   * @param {Routes} routes Type compatible with app.menu.ts
-   */
-  public updateMenuByRoutes(routes) {
-    let convertedRoutes = this.convertRoutesToMenus(_.cloneDeep(routes));
+    public selectOp$ = this.selectOp.asObservable();
 
-    console.log(convertedRoutes);
+    constructor() {
+    }
 
-    this.menuItems.next(convertedRoutes);
-  }
+    /**
+     * Updates the routes in the menu
+     *
+     * @param {Routes} routes Type compatible with app.menu.ts
+     */
+    public updateMenuByRoutes(routes) {
+        let convertedRoutes = this.convertRoutesToMenus(_.cloneDeep(routes));
+        this.menuItems.next(convertedRoutes);
+    }
 
-  public convertRoutesToMenus(routes: Routes): any[] {
-    let items = this._convertArrayToItems(routes);
-    return this._skipEmpty(items);
-  }
+    public convertRoutesToMenus(routes): any[] {
+        let items = this._convertArrayToItems(routes);
+        return this._skipEmpty(items);
+    }
 
-  public getCurrentItem(): any {
-    return this._currentMenuItem;
-  }
+    public getCurrentItem(): any {
+        return this._currentMenuItem;
+    }
 
-  public selectMenuItem(menuItems: any[]): any[] {
-    let items = [];
-    menuItems.forEach((item) => {
-      this._selectItem(item);
+    public selectMenuItem(menuItems: any[]): any[] {
+        let items = [];
+        menuItems.forEach((item) => {
+            this._selectItem(item);
 
-      if (item.selected) {
-        this._currentMenuItem = item;
-      }
+            if (item.selected) {
+                this._currentMenuItem = item;
+            }
 
-      if (item.children && item.children.length > 0) {
-        item.children = this.selectMenuItem(item.children);
-      }
-      items.push(item);
-    });
-    return items;
-  }
+            if (item.children && item.children.length > 0) {
+                item.children = this.selectMenuItem(item.children);
+            }
+            items.push(item);
+        });
+        return items;
+    }
 
-  protected _skipEmpty(items: any[]): any[] {
-    let menu = [];
-    items.forEach((item) => {
-      let menuItem;
-      if (item.skip) {
-        if (item.children && item.children.length > 0) {
-          menuItem = item.children;
+    protected _skipEmpty(items: any[]): any[] {
+        let menu = [];
+        items.forEach((item) => {
+            let menuItem;
+            if (item.skip) {
+                if (item.children && item.children.length > 0) {
+                    menuItem = item.children;
+                }
+            } else {
+                menuItem = item;
+            }
+
+            if (menuItem) {
+                menu.push(menuItem);
+            }
+        });
+
+        return [].concat.apply([], menu);
+    }
+
+    protected _convertArrayToItems(routes: any[], parent?: any): any[] {
+        let items = [];
+        routes.forEach((route) => {
+            items.push(this._convertObjectToItem(route, parent));
+        });
+        return items;
+    }
+
+    protected _convertObjectToItem(object, parent?: any): any {
+        let item: any = {};
+        if (object.data && object.data.menu) {
+            // this is a menu object
+            item = object.data.menu;
+            item.route = object;
+            delete item.route.data.menu;
+        } else {
+            item.route = object;
+            item.skip = true;
         }
-      } else {
-        menuItem = item;
-      }
 
-      if (menuItem) {
-        menu.push(menuItem);
-      }
-    });
+        // we have to collect all paths to correctly build the url then
+        if (Array.isArray(item.route.path)) {
+            item.route.paths = item.route.path;
+        } else {
+            item.route.paths = parent && parent.route && parent.route.paths ? parent.route.paths.slice(0) : ['/'];
+            if (!!item.route.path) item.route.paths.push(item.route.path);
+        }
 
-    return [].concat.apply([], menu);
-  }
+        if (object.children && object.children.length > 0) {
+            item.children = this._convertArrayToItems(object.children, item);
+        }
 
-  protected _convertArrayToItems(routes: any[], parent?: any): any[] {
-    let items = [];
-    routes.forEach((route) => {
-      items.push(this._convertObjectToItem(route, parent));
-    });
-    return items;
-  }
+        if (!!object.actClass) {
+            item.actClass = object.actClass;
+        }
 
-  protected _convertObjectToItem(object, parent?: any): any {
-    let item: any = {};
-    if (object.data && object.data.menu) {
-      // this is a menu object
-      item = object.data.menu;
-      item.route = object;
-      delete item.route.data.menu;
-    } else {
-      item.route = object;
-      item.skip = true;
+        let prepared = this._prepareItem(item);
+
+        // if current item is selected or expanded - then parent is expanded too
+        if ((prepared.selected || prepared.expanded) && parent) {
+            parent.expanded = true;
+        }
+
+        return prepared;
     }
 
-    // we have to collect all paths to correctly build the url then
-    if (Array.isArray(item.route.path)) {
-      item.route.paths = item.route.path;
-    } else {
-      item.route.paths = parent && parent.route && parent.route.paths ? parent.route.paths.slice(0) : ['/'];
-      if (!!item.route.path) item.route.paths.push(item.route.path);
+    protected _prepareItem(object: any): any {
+        if (!object.skip) {
+            object.target = object.target || '';
+            object.pathMatch = object.pathMatch || 'full';
+            return this._selectItem(object);
+        }
+
+        return object;
     }
 
-    if (object.children && object.children.length > 0) {
-      item.children = this._convertArrayToItems(object.children, item);
+    protected _selectItem(object: any): any {
+
+        // TODO: 根据浏览器URL选中菜单->根据上次打开的tab选中菜单
+
+        // object.selected = this._router.isActive(this._router.createUrlTree(object.route.paths), object.pathMatch === 'full');
+
+        return object;
     }
 
-    if (!!object.actClass) {
-      item.actClass = object.actClass;
+    publishData(item) {
+        this.selectOp.next(item);
     }
 
-    let prepared = this._prepareItem(item);
-
-    // if current item is selected or expanded - then parent is expanded too
-    if ((prepared.selected || prepared.expanded) && parent) {
-      parent.expanded = true;
+    subscribe(fn) {
+        this.selectOp$.subscribe(fn);
     }
-
-    return prepared;
-  }
-
-  protected _prepareItem(object: any): any {
-    if (!object.skip) {
-      object.target = object.target || '';
-      object.pathMatch = object.pathMatch || 'full';
-      return this._selectItem(object);
-    }
-
-    return object;
-  }
-
-  protected _selectItem(object: any): any {
-
-    // TODO: 根据浏览器URL选中菜单->根据上次打开的tab选中菜单
-
-    // object.selected = this._router.isActive(this._router.createUrlTree(object.route.paths), object.pathMatch === 'full');
-
-    return object;
-  }
 }

@@ -5,9 +5,6 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { routing }       from './forms.routing';
-
-import { Forms } from './forms.component';
 import { Inputs } from './components/inputs';
 import { Layouts } from './components/layouts';
 
@@ -30,13 +27,26 @@ import { WithoutLabelsForm } from './components/layouts/components/withoutLabels
     AngularFormsModule,
     AppTranslationModule,
     NgaModule,
-    NgbRatingModule,
-    routing
+    NgbRatingModule
   ],
   declarations: [
     Layouts,
     Inputs,
-    Forms,
+    StandardInputs,
+    ValidationInputs,
+    GroupInputs,
+    CheckboxInputs,
+    Rating,
+    SelectInputs,
+    InlineForm,
+    BlockForm,
+    HorizontalForm,
+    BasicForm,
+    WithoutLabelsForm
+  ],
+  entryComponents: [
+    Layouts,
+    Inputs,
     StandardInputs,
     ValidationInputs,
     GroupInputs,

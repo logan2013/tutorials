@@ -6,7 +6,7 @@ import {TabContentDirective} from "./tab-content.directive";
 @Component({
   selector: "tab",
   template: `
-  <div>
+  <div [ngStyle]="{display: active ? 'block':'none'}">
     <ng-template tab-content></ng-template>
   </div>
   `
@@ -17,7 +17,7 @@ export class TabComponent implements AfterContentInit {
 
   @Input() title: string;
 
-  active: boolean;
+  active: boolean = true;
 
   @ViewChild(TabContentDirective) tabContentDirective: TabContentDirective;
 

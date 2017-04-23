@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 import 'style-loader!./baMenuItem.scss';
+import {BaMenuService} from "../../../../services/baMenu/baMenu.service";
 
 @Component({
   selector: 'ba-menu-item',
@@ -13,7 +14,9 @@ export class BaMenuItem {
 
   @Output() itemHover = new EventEmitter<any>();
   @Output() toggleSubMenu = new EventEmitter<any>();
-  @Output() selectItem = new EventEmitter<any>();
+
+  constructor(private _menuService: BaMenuService) {
+  }
 
   public onHoverItem($event):void {
     this.itemHover.emit($event);
@@ -25,21 +28,7 @@ export class BaMenuItem {
     return false;
   }
 
-  public onSelectItem1($event, item) {
-
-    console.log("event in baMenuItem");
-    console.log(item);
-
-    this.selectItem.emit(item);
-    return false;
-  }
-
-  public onSelectItem2($event) {
-
-    console.log("event in baMenuItem menu");
-    console.log($event);
-
-    this.selectItem.emit($event);
-    return false;
+  public onSelectItem($event, item) {
+    this._menuService.publishData(item);
   }
 }

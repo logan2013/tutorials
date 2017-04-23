@@ -4,7 +4,6 @@
     [menuItem]="item"
     (itemHover)="hoverItem($event)"
     (toggleSubMenu)="toggleSubMenu($event)"
-    (selectItem)="onSelectItem3($event)"
     *ngFor="let item of menuItems"></ba-menu-item>
 </ul>
 <div class="sidebar-hover-elem" [ngStyle]="{top: hoverElemTop + 'px', height: hoverElemHeight + 'px'}"
