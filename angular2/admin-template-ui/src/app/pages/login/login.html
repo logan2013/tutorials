@@ -1,39 +1,56 @@
 <div class="auth-main">
-  <div class="auth-block">
-    <h1>Sign in to ng2-admin</h1>
-    <a routerLink="/register" class="auth-link">New to ng2-admin? Sign up!</a>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
+  <div class="auth-block pt-2 ">
+   <!-- <h1>Sign in to ng2-admin</h1>
+    <a routerLink="/register" class="auth-link">New to ng2-admin? Sign up!</a>-->
+    <div class="pl-0 card-header">
+      <i class="icon ion-android-contacts"></i>&nbsp;&nbsp;登录/Login
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal mt-4">
       <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
-        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-        <div class="col-sm-10">
+        <label for="inputEmail3" class="col-sm-2 control-label  p-0">用户名：</label>
+        <div class="col-sm-10  p-0">
           <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="Email">
         </div>
       </div>
       <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
-        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+        <label for="inputPassword3" class="col-sm-2 control-label p-0">密&nbsp;&nbsp;码：</label>
 
-        <div class="col-sm-10">
+        <div class="col-sm-10  p-0">
           <input [formControl]="password" type="password" class="form-control" id="inputPassword3" placeholder="Password">
         </div>
       </div>
+      <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+        <label for="inputPassword4" class="col-sm-2 control-label p-0">安全密码：</label>
+        <div class="col-sm-10 p-0">
+          <input [formControl]="password" type="password" class="form-control" id="inputPassword4" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+        <label for="inputPassword5" class="col-sm-2 control-label  p-0">验证码：</label>
+        <div class="col-sm-10  p-0">
+        <div class="d-inline-block col-sm-10  col-md-10 col-xl-10 col-9 p-0">
+          <input [formControl]="password" type="password" class="form-control" id="inputPassword5" placeholder="Password">
+        </div>
+        <div class="d-inline-block  pl-0 ">
+          <img src="/assets/img/theme/login/yzm.png" height="35"  width="64"  class="yzm">
+        </div>
+        </div>
+      </div>
       <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10">
-          <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">Sign in</button>
-          <a routerLink="/login" class="forgot-pass">Forgot password?</a>
+        <div class="text-center  col-sm-12 ">
+          <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">登&nbsp;&nbsp;录</button>
+          <button type="reset" class="btn btn-default btn-auth">重&nbsp;&nbsp;置</button>
         </div>
       </div>
     </form>
-
-    <div class="auth-sep"><span><span>or Sign in with one click</span></span></div>
-
-    <div class="al-share-auth">
+    <!--<div class="auth-sep"><span><span>or Sign in with one click</span></span></div>-->
+    <!--<div class="al-share-auth">
       <ul class="al-share clearfix">
         <li><i class="socicon socicon-facebook" title="Share on Facebook"></i></li>
         <li><i class="socicon socicon-twitter" title="Share on Twitter"></i></li>
         <li><i class="socicon socicon-google" title="Share on Google Plus"></i></li>
       </ul>
-    </div>
+    </div>-->
   </div>
 </div>

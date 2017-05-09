@@ -12,3 +12,6 @@ export * from './baPictureUploader';
 export * from './baCheckbox';
 export * from './baMultiCheckbox';
 export * from './baFileUploader';
+export * from "./baNavTop";
+export * from "./tabs";
+export * from "./tzb-QuitTop"

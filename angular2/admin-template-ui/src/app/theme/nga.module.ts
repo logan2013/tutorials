@@ -3,7 +3,6 @@ import { CommonModule }  from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgUploaderModule } from 'ngx-uploader';
-import { AppTranslationModule } from '../app.translation.module';
 
 import {
   BaThemeConfig
@@ -27,7 +26,11 @@ import {
   BaPageTop,
   BaPictureUploader,
   BaSidebar,
-  BaFileUploader
+  BaFileUploader,
+  BaNavTop,
+  TabComponent,
+  TabsetComponent,
+  QuitTop
 } from './components';
 
 import { BaCardBlur } from './components/baCard/baCardBlur.directive';
@@ -35,7 +38,8 @@ import { BaCardBlur } from './components/baCard/baCardBlur.directive';
 import {
   BaScrollPosition,
   BaSlimScroll,
-  BaThemeRun
+  BaThemeRun,
+  TabContentDirective
 } from './directives';
 
 import {
@@ -55,6 +59,7 @@ import {
   EmailValidator,
   EqualPasswordsValidator
 } from './validators';
+import {DynamicMenuService} from "./services/baMenu/dynamicMenuService.service";
 
 const NGA_COMPONENTS = [
   BaBackTop,
@@ -70,14 +75,19 @@ const NGA_COMPONENTS = [
   BaPageTop,
   BaPictureUploader,
   BaSidebar,
-  BaFileUploader
+  BaFileUploader,
+  BaNavTop,
+  TabComponent,
+  TabsetComponent,
+  QuitTop
 ];
 
 const NGA_DIRECTIVES = [
   BaScrollPosition,
   BaSlimScroll,
   BaThemeRun,
-  BaCardBlur
+  BaCardBlur,
+  TabContentDirective
 ];
 
 const NGA_PIPES = [
@@ -90,6 +100,7 @@ const NGA_SERVICES = [
   BaImageLoaderService,
   BaThemePreloader,
   BaThemeSpinner,
+  DynamicMenuService,
   BaMenuService
 ];
 
@@ -109,7 +120,6 @@ const NGA_VALIDATORS = [
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    AppTranslationModule,
     NgUploaderModule
   ],
   exports: [

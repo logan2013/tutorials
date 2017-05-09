@@ -1,0 +1,39 @@
+@import '../../sass/conf/conf';
+.navTop{
+  overflow: hidden; float: left; margin-left: 20px;width: 74%;
+  .nav{
+    background: none;
+    li{
+      /*  float: left;*/
+      text-align: center;
+      width: 20%;
+      height: 66px;
+      line-height: 66px; border-radius:0.25rem ;
+      color: #808080;
+      &:hover{
+        cursor: pointer;color: #FFF;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1366px) {
+  .navTop{
+    width: 68%;
+  }
+}
+@media screen and (max-width: $resXXL) {
+  .navTop{
+    width: 65%;
+  }
+}
+@media screen and (max-width: $resXL) {
+  .navTop{
+    width: 61%;
+  }
+}
+@media screen and (max-width: 1169px) {
+  .navTop{
+    display: none;
+  }
+}
+

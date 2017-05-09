@@ -1,0 +1,8 @@
+label{
+  min-width: 4.0625rem;
+}
+@media screen and (max-width: 1366px){
+  label{
+    min-width: 0.0625rem;
+  }
+}

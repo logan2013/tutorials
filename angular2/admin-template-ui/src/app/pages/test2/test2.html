@@ -1,0 +1,134 @@
+<form [formGroup]="testForm">
+    <tzb-row >
+    <tzb-blue-btn></tzb-blue-btn>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-8 mt-2 p-0">
+        <div class=" form-inline" [ngClass]="{'has-danger': isTestInput1Invalid('textInput1')}">
+          <label class="form-control-label m-2 text-left">Text</label>
+          <input formControlName="textInput1" type="text" class="form-control col-lg-9 mb-2 " [ngClass]="{'form-control-danger': isTestInput1Invalid('textInput1')}" placeholder="Text" >
+        </div>
+        <div *ngIf="isTestInput1Invalid('textInput1')" class="text-danger offset-lg-2">输入错误！</div>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-2 mt-2  p-0">
+      <tzb-blue-btn ></tzb-blue-btn>
+      </div>
+    </tzb-row>
+     <tzb-row>
+       <label class="form-control-label m-2 text-left" >奖励策略</label>
+      <!-- <tzb-formlabel></tzb-formlabel>-->
+       <div class="col-xs-12 ">
+         <label class="radio-inline custom-radio nowrap mt-2">
+           <input  name="inlineRadioOptions" type="radio" value="option2">
+           <span>Option 2</span>
+         </label>
+         <label class="radio-inline custom-radio nowrap mt-2">
+           <input  name="inlineRadioOptions" type="radio" value="option2">
+           <span>Option 2</span>
+         </label>
+         <label class="radio-inline custom-radio nowrap mt-2">
+           <input  name="inlineRadioOptions" type="radio" value="option2">
+           <span>Option 2</span>
+         </label>
+       </div>
+     </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mt-2 p-0">
+        <tzb-text-input></tzb-text-input>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12 mt-2  p-0">
+        <tzb-blue-btn></tzb-blue-btn>
+      </div>
+    </tzb-row>
+    <tzb-row>
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mt-2 p-0">
+      <tzb-select-input></tzb-select-input>
+      </div>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mt-2 p-0">
+        <tzb-text-input></tzb-text-input>
+        <div class="text-danger offset-lg-2">输入错误！</div>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12  mt-2 p-0">
+        <tzb-blue-btn></tzb-blue-btn>
+      </div>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mt-2 p-0">
+        <tzb-text-input></tzb-text-input>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12 mt-2 p-0">
+        (申购时投资人需要密码才能投资)
+      </div>
+    </tzb-row>
+    <tzb-row>
+     <tzb-title class="col-12 p-0"></tzb-title>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-8 mt-2 p-0">
+        <tzb-text-input></tzb-text-input>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-2 mt-2 p-0">
+        元
+      </div>
+    </tzb-row>
+    <tzb-row>
+        <tzb-formlabel></tzb-formlabel>
+        <div class="col-xs-12 ">
+          <tzb-checkbox class="col-2 p-xs-0"></tzb-checkbox>
+          <tzb-checkbox class="col-2 p-xs-0"></tzb-checkbox>
+          <tzb-checkbox class="col-2 p-xs-0"></tzb-checkbox>
+        </div>
+
+    </tzb-row>
+
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12  mt-2 p-0">
+        <tzb-text-input ></tzb-text-input>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12 mt-2 p-0">
+        <tzb-blue-btn ></tzb-blue-btn>
+      </div>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-8 mt-2 p-0">
+        <tzb-text-input></tzb-text-input>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-2 mt-2 p-0">
+       %
+      </div>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-8 mt-2 p-0">
+        <tzb-text-input></tzb-text-input>
+      </div>
+      <div class="col-lg-9 col-md-6 col-sm-6 col-xs-2 mt-2 p-0">
+        元
+      </div>
+    </tzb-row>
+    <tzb-row >
+      <div class="col-lg-10  p-0">
+       <tzb-textarea-input></tzb-textarea-input>
+      </div>
+    </tzb-row>
+  <tzb-row>
+    <tzb-formlabel></tzb-formlabel>
+    <div class="col-10">
+      <ckeditor formControlName="ckeditorContent" [config]="config"></ckeditor>
+    </div>
+
+  </tzb-row>
+    <tzb-row>
+      <tzb-blue-btn></tzb-blue-btn>
+      <tzb-red-btn></tzb-red-btn>
+      <tzb-grey-btn></tzb-grey-btn>
+    </tzb-row>
+
+
+
+<br>表单修改过: {{ testForm.dirty }}
+<br>点过表单: {{ testForm.touched }}
+<br>是否校验通过: {{ testForm.valid }}
+<br>校验失败errors: {{ testForm.get('textInput1').errors | json}}
+<br>当前的值: {{ testForm.value | json}}

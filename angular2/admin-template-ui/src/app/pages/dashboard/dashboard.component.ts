@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {TabComponent} from "../../theme/components/tabs/tab.component";
+import {DashboardDetail} from "./dashboard-detail.component";
 
 @Component({
   selector: 'dashboard',
@@ -7,7 +9,10 @@ import {Component} from '@angular/core';
 })
 export class Dashboard {
 
-  constructor() {
+  constructor(private tab: TabComponent) {
   }
 
+  goToDetail() {
+    this.tab.renderComponent(DashboardDetail);
+  }
 }

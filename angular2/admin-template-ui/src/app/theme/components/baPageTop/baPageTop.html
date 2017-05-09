@@ -1,14 +1,15 @@
 <div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
      [ngClass]="{scrolled: isScrolled}">
-  <a routerLink="/pages/dashboard" class="al-logo clearfix"><span>ng2-</span>admin</a>
+  <a routerLink="/pages/dashboard" class="al-logo clearfix"><img src="../../../../assets/img/theme/logo/logo.png" width="102" ></a>
   <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
 
-  <div class="search">
+ <!-- <div class="search">
     <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
     <input id="searchInput" type="text" placeholder="Search for...">
-  </div>
-
-  <div class="user-profile clearfix">
+  </div>-->
+  <!--<NavTop></NavTop>-->
+<NavTop></NavTop>
+<!--  <div class="user-profile clearfix">
     <div class="dropdown al-user-profile">
       <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
         <img src="{{ ( 'Nasta' | baProfilePicture ) }}">
@@ -19,6 +20,7 @@
         <li class="dropdown-item"><a href class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
       </ul>
     </div>
-    <ba-msg-center></ba-msg-center>
-  </div>
+
+  </div> -->
+  <tzb-QuitTop></tzb-QuitTop>
 </div>

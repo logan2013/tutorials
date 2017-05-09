@@ -11,17 +11,29 @@ import {Icons} from "./ui/components/icons/icons.component";
 import {Buttons} from "./ui/components/buttons/buttons.component";
 import {Typography} from "./ui/components/typography/typography.component";
 import {ChartistJs} from "./charts/components/chartistJs/chartistJs.component";
+import {Permission} from "../theme/services/baMenu/dynamicMenuService.service";
+import { Test } from './test/test.component';
+import { Test2 } from './test2/test2.component';
+import {Ng2Tables} from "./tables/components/ng2Tables/ng2Tables.component";
+import { Test3 } from './test3/test3.component';
+import { Test4 } from './test4/test4.component';
+import {PrimeNgDataTableComponent} from './tables/components/primengDataTable/primeNgDataTable.component';
 
-export const PAGES_MENU = [
+export const PAGES_MENU: Permission[] = [
     {
-        path: 'pages',
+        path: 'member',
+        data: {
+          menu: {
+            title: '会员中心'
+          }
+        },
         children: [
             {
                 actClass: Dashboard,
                 path: 'dashboard',
                 data: {
                     menu: {
-                        title: 'general.menu.dashboard',
+                        title: '会员列表',
                         icon: 'ion-android-home',
                         selected: false,
                         expanded: false,
@@ -29,11 +41,76 @@ export const PAGES_MENU = [
                     }
                 }
             },
+          {
+            actClass: Ckeditor,
+            path: 'Ckeditor',
+            data: {
+              menu: {
+                title: 'Ckeditor',
+                icon: 'ion-android-home',
+                selected: false,
+                expanded: false,
+                order: 0
+              }
+            }
+          },
+          {
+            actClass: Test,
+            path: 'test',
+            data: {
+              menu: {
+                title: 'test',
+                icon: 'ion-android-home',
+                selected: false,
+                expanded: false,
+                order: 0
+              }
+            }
+          },
+          {
+            actClass: Test2,
+            path: 'test2',
+            data: {
+              menu: {
+                title: 'test2',
+                icon: 'ion-android-home',
+                selected: false,
+                expanded: false,
+                order: 0
+              }
+            }
+          },
+          {
+            actClass: Test3,
+            path: 'test3',
+            data: {
+              menu: {
+                title: 'test3',
+                icon: 'ion-android-home',
+                selected: false,
+                expanded: false,
+                order: 0
+              }
+            }
+          },
+          {
+            actClass: Test4,
+            path: 'test4',
+            data: {
+              menu: {
+                title: 'test4',
+                icon: 'ion-android-home',
+                selected: false,
+                expanded: false,
+                order: 0
+              }
+            }
+          },
             {
                 path: 'editors',
                 data: {
                     menu: {
-                        title: 'general.menu.editors',
+                        title: '黑名单',
                         icon: 'ion-edit',
                         selected: false,
                         expanded: false,
@@ -46,7 +123,7 @@ export const PAGES_MENU = [
                         path: 'ckeditor',
                         data: {
                             menu: {
-                                title: 'general.menu.ck_editor',
+                                title: '白名单',
                             }
                         }
                     }
@@ -56,7 +133,7 @@ export const PAGES_MENU = [
                 path: 'components',
                 data: {
                     menu: {
-                        title: 'general.menu.components',
+                        title: 'components',
                         icon: 'ion-gear-a',
                         selected: false,
                         expanded: false,
@@ -69,7 +146,7 @@ export const PAGES_MENU = [
                         path: 'treeview',
                         data: {
                             menu: {
-                                title: 'general.menu.tree_view',
+                                title: 'treeview',
                             }
                         }
                     }
@@ -79,7 +156,7 @@ export const PAGES_MENU = [
                 path: 'charts',
                 data: {
                     menu: {
-                        title: 'general.menu.charts',
+                        title: 'charts',
                         icon: 'ion-stats-bars',
                         selected: false,
                         expanded: false,
@@ -92,7 +169,7 @@ export const PAGES_MENU = [
                         path: 'chartist-js',
                         data: {
                             menu: {
-                                title: 'general.menu.chartist_js',
+                                title: 'chartist-js',
                             }
                         }
                     }
@@ -102,7 +179,7 @@ export const PAGES_MENU = [
                 path: 'ui',
                 data: {
                     menu: {
-                        title: 'general.menu.ui_features',
+                        title: 'ui',
                         icon: 'ion-android-laptop',
                         selected: false,
                         expanded: false,
@@ -115,7 +192,7 @@ export const PAGES_MENU = [
                         path: 'typography',
                         data: {
                             menu: {
-                                title: 'general.menu.typography',
+                                title: 'typography',
                             }
                         }
                     },
@@ -124,7 +201,7 @@ export const PAGES_MENU = [
                         path: 'buttons',
                         data: {
                             menu: {
-                                title: 'general.menu.buttons',
+                                title: 'buttons',
                             }
                         }
                     },
@@ -133,7 +210,7 @@ export const PAGES_MENU = [
                         path: 'icons',
                         data: {
                             menu: {
-                                title: 'general.menu.icons',
+                                title: 'icons',
                             }
                         }
                     },
@@ -142,7 +219,7 @@ export const PAGES_MENU = [
                         path: 'modals',
                         data: {
                             menu: {
-                                title: 'general.menu.modals',
+                                title: 'modals',
                             }
                         }
                     },
@@ -151,7 +228,7 @@ export const PAGES_MENU = [
                         path: 'grid',
                         data: {
                             menu: {
-                                title: 'general.menu.grid',
+                                title: 'grid',
                             }
                         }
                     },
@@ -161,7 +238,7 @@ export const PAGES_MENU = [
                 path: 'forms',
                 data: {
                     menu: {
-                        title: 'general.menu.form_elements',
+                        title: 'forms',
                         icon: 'ion-compose',
                         selected: false,
                         expanded: false,
@@ -174,7 +251,7 @@ export const PAGES_MENU = [
                         path: 'inputs',
                         data: {
                             menu: {
-                                title: 'general.menu.form_inputs',
+                                title: 'inputs',
                             }
                         }
                     },
@@ -183,7 +260,7 @@ export const PAGES_MENU = [
                         path: 'layouts',
                         data: {
                             menu: {
-                                title: 'general.menu.form_layouts',
+                                title: 'layouts',
                             }
                         }
                     }
@@ -193,7 +270,7 @@ export const PAGES_MENU = [
                 path: 'tables',
                 data: {
                     menu: {
-                        title: 'general.menu.tables',
+                        title: 'tables',
                         icon: 'ion-grid',
                         selected: false,
                         expanded: false,
@@ -202,11 +279,20 @@ export const PAGES_MENU = [
                 },
                 children: [
                     {
+                      actClass: Ng2Tables,
+                      path: 'ng2-tables',
+                      data: {
+                        menu: {
+                          title: 'ng2-tables',
+                        }
+                      }
+                    },
+                    {
                         actClass: BasicTables,
                         path: 'basictables',
                         data: {
                             menu: {
-                                title: 'general.menu.basic_tables',
+                                title: 'basictables',
                             }
                         }
                     },
@@ -215,12 +301,43 @@ export const PAGES_MENU = [
                         path: 'smarttables',
                         data: {
                             menu: {
-                                title: 'general.menu.smart_tables',
+                                title: 'smarttables',
+                            }
+                        }
+                    },
+                    {
+                        actClass: PrimeNgDataTableComponent,
+                        path: 'PrimeNgDataTable',
+                        data: {
+                            menu: {
+                                title: 'PrimeNgDataTable',
                             }
                         }
                     }
                 ]
             }
         ]
-    }
+    }, {
+    path: 'finance',
+    data: {
+      menu: {
+        title: '资金中心'
+      }
+    },
+    children: [
+      {
+        actClass: Dashboard,
+        path: 'dashboard',
+        data: {
+          menu: {
+            title: '提现',
+            icon: 'ion-android-home',
+            selected: false,
+            expanded: false,
+            order: 0
+          }
+        }
+      }
+    ]
+  }
 ];

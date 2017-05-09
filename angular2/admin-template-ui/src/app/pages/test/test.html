@@ -1,0 +1,102 @@
+<div class="card-body ">
+<tzb-row>
+  <div class=" col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <tzb-text-input></tzb-text-input>
+  </div>
+  <div class=" col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <tzb-text-input></tzb-text-input>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <tzb-text-input></tzb-text-input>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <tzb-text-input></tzb-text-input>
+  </div>
+</tzb-row>
+<tzb-row>
+  <div class=" col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <tzb-select-input></tzb-select-input>
+  </div>
+  <div class=" col-lg-3 col-md-6 col-sm-6  col-xs-12" >
+    <tzb-select-input></tzb-select-input>
+  </div>
+  <div class=" col-lg-3 col-md-6 col-sm-6  col-xs-12">
+    <tzb-select-input></tzb-select-input>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <tzb-select-input></tzb-select-input>
+  </div>
+</tzb-row>
+
+  <tzb-row>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <tzb-datepicker-input></tzb-datepicker-input>
+    </div>
+    <div class=" col-lg-6 col-md-6 col-sm-6  col-xs-12" >
+      <tzb-datepicker-input></tzb-datepicker-input>
+    </div>
+  </tzb-row>
+  <tzb-center>
+  <tzb-blue-btn class="mr-2"></tzb-blue-btn><tzb-red-btn  class="mr-2"></tzb-red-btn><tzb-grey-btn></tzb-grey-btn>
+  </tzb-center>
+
+  <tzb-row>
+    <tzb-title class="col-12 p-0"></tzb-title>
+    <tzb-table-border class="col-12 table-responsive ">
+      <tbody>
+      <tr>
+        <th class="text-center">序号</th>
+        <th class="text-center">项目名称</th>
+        <th class="text-center">申购时间</th>
+        <th class="text-center">申购金额(元)</th>
+        <th class="text-center">成交金额(元)</th>
+        <th class="text-center">申购状态</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>项目XXXXX</td>
+        <td>2017-04-05</td>
+        <td>1000000</td>
+        <td>1000000</td>
+        <td>申购状态</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>项目XXXXX</td>
+        <td>2017-04-05</td>
+        <td>1000000</td>
+        <td>1000000</td>
+        <td>申购状态</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>项目XXXXX</td>
+        <td>2017-04-05</td>
+        <td>1000000</td>
+        <td>1000000</td>
+        <td>申购状态</td>
+      </tr>
+      </tbody>
+    </tzb-table-border>
+  </tzb-row>
+  <div class="table-responsive col-12">
+    <ng-table [config]="config"
+              (tableChanged)="onChangeTable(config)"
+              (cellClicked)="onCellClick($event)"
+              [rows]="rows" [columns]="columns">
+    </ng-table>
+
+    <pagination *ngIf="config.paging"
+                class="pagination-sm"
+                [(ngModel)]="page"
+                [totalItems]="length"
+                [itemsPerPage]="itemsPerPage"
+                [maxSize]="maxSize"
+                [boundaryLinks]="true"
+                [rotate]="false"
+                (pageChanged)="onChangeTable(config, $event)"
+                (numPages)="numPages = $event"></pagination>
+
+  </div>
+
+</div>

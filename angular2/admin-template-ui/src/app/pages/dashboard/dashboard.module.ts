@@ -1,7 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 
 import { Dashboard } from './dashboard.component';
@@ -17,12 +16,12 @@ import { FeedService } from './feed/feed.service';
 import { PieChartService } from './pieChart/pieChart.service';
 import { TodoService } from './todo/todo.service';
 import { TrafficChartService } from './trafficChart/trafficChart.service';
+import {DashboardDetail} from "./dashboard-detail.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    AppTranslationModule,
     NgaModule
   ],
   declarations: [
@@ -32,7 +31,8 @@ import { TrafficChartService } from './trafficChart/trafficChart.service';
     Feed,
     Todo,
     Calendar,
-    Dashboard
+    Dashboard,
+    DashboardDetail
   ],
   providers: [
     CalendarService,
@@ -48,7 +48,8 @@ import { TrafficChartService } from './trafficChart/trafficChart.service';
     Feed,
     Todo,
     Calendar,
-    Dashboard
+    Dashboard,
+    DashboardDetail
   ]
 })
 export class DashboardModule {}

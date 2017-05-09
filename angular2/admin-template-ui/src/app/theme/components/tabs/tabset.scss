@@ -1,0 +1,36 @@
+@import '../../sass/conf/conf';
+.tabset{
+  height: 40px; line-height: 40px; display: block;
+  margin-bottom: 0; width: 100%;
+  overflow-x: auto;
+  li{
+    float: left;
+    min-width: 100px;
+    margin-right: 10px;
+    padding: 0px 10px;
+    border-radius: 7px 7px 0 0;
+    display: block;font-weight: normal;
+    cursor: pointer;
+   /* box-shadow: none;*/
+    box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.15);
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.5);;
+    span{
+      float: right;
+      margin-top: -12px;
+      margin-right: -5px;
+      transform: scale(0.8);
+      cursor: pointer;
+      color: #fff;
+    }
+  }
+  .active{
+     cursor: pointer; font-size: 18px; color: #fff;
+   /* a{
+     border-bottom: 1px solid #fff; min-height: 35px; line-height: 35px;
+    }*/
+    span{
+    color: #fff;
+  }
+  }
+}

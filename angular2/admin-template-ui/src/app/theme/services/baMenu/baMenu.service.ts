@@ -1,20 +1,41 @@
-import {Injectable} from '@angular/core';
-import * as _ from 'lodash';
+import {Injectable} from "@angular/core";
+import * as _ from "lodash";
 
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subject} from "rxjs";
+import {DynamicMenuService, Permission} from "./dynamicMenuService.service";
+import {TopMenu} from "../../components/baNavTop/baNavTop.component";
 
 @Injectable()
 export class BaMenuService {
-    menuItems = new BehaviorSubject<any[]>([]);
+  /**
+   * left menu item
+   */
+  menuItems = new BehaviorSubject<any[]>([]);
+  /**
+   * top menu item
+   */
+  topItems = new BehaviorSubject<any[]>([]);
 
     protected _currentMenuItem = {};
 
-    private selectOp = new Subject<any>();
+    selectOp = new Subject<any>();
 
-    public selectOp$ = this.selectOp.asObservable();
+    private userDynamicMenu: Permission[];
 
-    constructor() {
+    constructor(private dynamicMenuService: DynamicMenuService) {
+      this.findUserDynamicMenu();
+    }
+
+  /**
+   * dynamic load user permission as menu
+   */
+    public findUserDynamicMenu(){
+      this.dynamicMenuService.getPagesMenuMock().then(userDynamicMenu => {
+        this.userDynamicMenu = userDynamicMenu;
+        this.fillTopMenu();
+        this.fillSiderbarMenu();
+      });
     }
 
     /**
@@ -22,9 +43,21 @@ export class BaMenuService {
      *
      * @param {Routes} routes Type compatible with app.menu.ts
      */
-    public updateMenuByRoutes(routes) {
-        let convertedRoutes = this.convertRoutesToMenus(_.cloneDeep(routes));
-        this.menuItems.next(convertedRoutes);
+    public fillSiderbarMenu(tab?: string) {
+      /**
+       * tab switch by path
+       */
+      let siderbarMenu: Permission;
+
+      if (tab){
+        siderbarMenu = this.userDynamicMenu.find(p => p.path === tab);
+      }else{
+        siderbarMenu = this.userDynamicMenu[0];
+      }
+      delete siderbarMenu.data;
+
+      let convertedRoutes = this.convertRoutesToMenus(_.cloneDeep([].concat(siderbarMenu)));
+      this.menuItems.next(convertedRoutes);
     }
 
     public convertRoutesToMenus(routes): any[] {
@@ -133,7 +166,8 @@ export class BaMenuService {
 
         // TODO: 根据浏览器URL选中菜单->根据上次打开的tab选中菜单
 
-        // object.selected = this._router.isActive(this._router.createUrlTree(object.route.paths), object.pathMatch === 'full');
+        // object.selected = this._router
+        //   .isActive(this._router.createUrlTree(object.route.paths), object.pathMatch === 'full');
 
         return object;
     }
@@ -142,7 +176,9 @@ export class BaMenuService {
         this.selectOp.next(item);
     }
 
-    subscribe(fn) {
-        this.selectOp$.subscribe(fn);
+    private fillTopMenu() {
+      let topMenu: TopMenu[] = [];
+      this.userDynamicMenu.forEach(m => topMenu.push({path: m.path, title: m.data.menu.title}));
+      this.topItems.next(topMenu);
     }
 }

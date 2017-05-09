@@ -16,6 +16,5 @@ export class Ckeditor {
     height: '600',
   };
 
-  constructor() {
-  }
+
 }
