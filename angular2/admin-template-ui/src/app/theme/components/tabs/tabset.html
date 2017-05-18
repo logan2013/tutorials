@@ -1,4 +1,4 @@
-<ul class="list-unstyled  text-center tabset  clearfix" baCardClass="with-scroll">
+<ul class="list-unstyled  text-center tabset  clearfix table-responsive" baCardClass="with-scroll">
   <li *ngFor="let tabTemplate of tabDataArray" (click)="activateTab(tabTemplate)" [class.active]="tabTemplate.active" class="list-inline card nav-pills" >
     <a>
       {{tabTemplate.title}}

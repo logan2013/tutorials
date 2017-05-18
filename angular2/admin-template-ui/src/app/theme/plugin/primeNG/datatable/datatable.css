@@ -312,6 +312,10 @@ tr.ui-state-highlight {
   z-index: 2;
 }
 
+.table-bordered-grey {
+  border: 1px solid #eceeef;
+}
+
 @media ( max-width: 35em ) {
   .ui-datatable-reflow thead th,
   .ui-datatable-reflow tfoot td {
@@ -347,3 +351,4 @@ tr.ui-state-highlight {
     font-weight: bold;
   }
 }
+

@@ -4,6 +4,7 @@
 import { Component } from '@angular/core';
 @Component({
   selector:"tzb-formlabel",
+  styleUrls:['./tzb-formlabel.scss'],
   templateUrl:"./tzb-formlabel.html",
 })
 

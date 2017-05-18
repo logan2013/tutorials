@@ -96,10 +96,11 @@ export class RowExpansionLoader {
 
 @Component({
     selector: '[pColumnHeaders]',
+    encapsulation: ViewEncapsulation.Emulated,
     template: `
         <ng-template ngFor let-col [ngForOf]="columns" let-lastCol="last">
             <th #headerCell [ngStyle]="col.style" [class]="col.styleClass" [style.display]="col.hidden ? 'none' : 'table-cell'" (click)="dt.sort($event,col)" [attr.colspan]="col.colspan" [attr.rowspan]="col.rowspan"
-                [ngClass]="{'ui-state-default ui-unselectable-text text-center':true, 'ui-sortable-column': col.sortable, 'ui-state-active': dt.isSorted(col), 'ui-resizable-column': dt.resizableColumns, 'ui-selection-column':col.selectionMode}" 
+                [ngClass]="{'aa ui-state-default ui-unselectable-text text-center':true, 'ui-sortable-column': col.sortable, 'ui-state-active': dt.isSorted(col), 'ui-resizable-column': dt.resizableColumns, 'ui-selection-column':col.selectionMode}" 
                 (dragstart)="dt.onColumnDragStart($event)" (dragover)="dt.onColumnDragover($event)" (dragleave)="dt.onColumnDragleave($event)" (drop)="dt.onColumnDrop($event)" (mousedown)="dt.onHeaderMousedown($event,headerCell)"
                 [attr.tabindex]="col.sortable ? tabindex : null" (keydown)="dt.onHeaderKeydown($event,col)"
                 >
@@ -412,7 +413,7 @@ export class ScrollableView implements AfterViewInit,AfterViewChecked,OnDestroy 
     selector: 'p-dataTable',
     styleUrls: ['./datatable.css'],
     template: `
-        <div [ngStyle]="style" [class]="styleClass" [style.width]="containerWidth"
+        <div [ngStyle]="style" [class]="styleClass" [style.width]="containerWidth" 
             [ngClass]="{'ui-datatable ui-widget lh35 table-responsive mt-3':true,'ui-datatable-reflow':responsive,'ui-datatable-stacked':stacked,'ui-datatable-resizable':resizableColumns,'ui-datatable-scrollable':scrollable}"
             >
             <div class="ui-datatable-loading ui-widget-overlay" *ngIf="loading"></div>
@@ -425,7 +426,7 @@ export class ScrollableView implements AfterViewInit,AfterViewChecked,OnDestroy 
             <p-paginator [rows]="rows" [first]="first" [totalRecords]="totalRecords" [pageLinkSize]="pageLinks" styleClass="ui-paginator-bottom"
                 (onPageChange)="paginate($event)" [rowsPerPageOptions]="rowsPerPageOptions" *ngIf="paginator && paginatorPosition!='bottom' || paginatorPosition =='both'"></p-paginator>
             <div class="ui-datatable-tablewrapper" *ngIf="!scrollable">
-                <table class="tableStyleClass,table, table-striped , table-bordered" [ngStyle]="tableStyle" >
+                <table class="table table-striped  table-bordered" [ngStyle]="tableStyle" [ngClass]="tableStyleClass">
                     <thead class="ui-datatable-thead">
                         <tr *ngIf="!headerColumnGroup" class="ui-state-default" [pColumnHeaders]="columns"></tr>
                         <ng-template [ngIf]="headerColumnGroup">
@@ -556,7 +557,7 @@ export class DataTable implements AfterViewChecked,AfterViewInit,AfterContentIni
 
     @Input() exportFilename: string = 'download';
 
-    @Input() emptyMessage: string = 'No records found';
+    @Input() emptyMessage: string = '暂无数据';
 
     @Input() paginatorPosition: string = 'bottom';
 

@@ -1,45 +1,102 @@
 <div class="card-body ">
-<tzb-row>
-  <div class=" col-lg-3 col-md-6 col-sm-6 col-xs-12">
-    <tzb-text-input></tzb-text-input>
+  <div class="row m-0 mb-3 form-inline">
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class="form-control-label col-3 d-inline text-right p-0">Text</label>
+      <input type="text" class="form-control col-8 d-inline"  placeholder="Text" >
+    </div>
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class="form-control-label col-3 d-inline text-right p-0">Text</label>
+      <input type="text" class="form-control col-8 d-inline"  placeholder="Text" >
+    </div>
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class="form-control-label col-3 d-inline text-right p-0">Text</label>
+      <input type="text" class="form-control col-8 d-inline"  placeholder="Text" >
+    </div>
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class="form-control-label col-3 d-inline text-right p-0">Text</label>
+      <input type="text" class="form-control col-8 d-inline"  placeholder="Text" >
+    </div>
   </div>
-  <div class=" col-lg-3 col-md-6 col-sm-6 col-xs-12">
-    <tzb-text-input></tzb-text-input>
+  <div class="row m-0 mb-3 form-inline">
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class=" form-control-label col-3 d-inline text-xl-right p-0"  >Select</label>
+        <select class="form-control col-8 d-inline" >
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+    </div>
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class=" form-control-label col-3 d-inline text-xl-right p-0"  >Select</label>
+      <select class="form-control col-8 d-inline" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class=" form-control-label col-3 d-inline text-xl-right p-0"  >Select</label>
+      <select class="form-control col-8 d-inline" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+      <label class="form-control-label col-3 d-inline text-xl-right p-0">Select</label>
+      <select class="form-control col-8 d-inline" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
   </div>
-  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-    <tzb-text-input></tzb-text-input>
-  </div>
-  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-    <tzb-text-input></tzb-text-input>
-  </div>
-</tzb-row>
-<tzb-row>
-  <div class=" col-lg-3 col-md-6 col-sm-6 col-xs-12">
-    <tzb-select-input></tzb-select-input>
-  </div>
-  <div class=" col-lg-3 col-md-6 col-sm-6  col-xs-12" >
-    <tzb-select-input></tzb-select-input>
-  </div>
-  <div class=" col-lg-3 col-md-6 col-sm-6  col-xs-12">
-    <tzb-select-input></tzb-select-input>
-  </div>
-  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-    <tzb-select-input></tzb-select-input>
-  </div>
-</tzb-row>
 
   <tzb-row>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-      <tzb-datepicker-input></tzb-datepicker-input>
+    <div class="col-lg-5 col-md-5 col-sm-5 ">
+      <div class="form-group">
+        <div class="form-inline">
+          <label class="form-control-label col-2 d-inline text-xl-right ">Text</label>
+          <div class="form-inline col-lg-9 p-0">
+            <div class="input-group col-5 p-0 mb-0">
+              <p-calendar [(ngModel)]="value" showTime="showTime" hourFormat="24"  ></p-calendar>
+            </div>
+            <div class=" col-2 hg text-center p-0 p-l-2">&mdash;</div>
+            <div class="input-group col-5 p-0 mb-0">
+              <p-calendar [(ngModel)]="value" showTime="showTime" hourFormat="24"  ></p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class=" col-lg-6 col-md-6 col-sm-6  col-xs-12" >
-      <tzb-datepicker-input></tzb-datepicker-input>
+    <div class="col-lg-5 col-md-5 col-sm-5 ">
+      <div class="form-group">
+        <div class="form-inline">
+          <label class="form-control-label col-2 d-inline text-xl-right ">Text</label>
+          <div class="form-inline col-lg-9 p-0">
+            <div class="input-group col-5 p-0 mb-0">
+              <p-calendar [(ngModel)]="value" showTime="showTime" hourFormat="24"  ></p-calendar>
+            </div>
+            <div class=" col-2 hg text-center p-0 p-l-2">&mdash;</div>
+            <div class="input-group col-5 p-0 mb-0">
+              <p-calendar [(ngModel)]="value" showTime="showTime" hourFormat="24"  ></p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </tzb-row>
   <tzb-center>
-  <tzb-blue-btn class="mr-2"></tzb-blue-btn><tzb-red-btn  class="mr-2"></tzb-red-btn><tzb-grey-btn></tzb-grey-btn>
+    <tzb-blue-btn class="mr-2 m"></tzb-blue-btn><tzb-red-btn  class="mr-2"></tzb-red-btn><tzb-grey-btn></tzb-grey-btn>
   </tzb-center>
-
   <tzb-row>
     <tzb-title class="col-12 p-0"></tzb-title>
     <tzb-table-border class="col-12 table-responsive ">
@@ -100,3 +157,4 @@
   </div>
 
 </div>
+

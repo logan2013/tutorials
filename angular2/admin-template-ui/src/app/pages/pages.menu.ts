@@ -12,16 +12,25 @@ import {Buttons} from "./ui/components/buttons/buttons.component";
 import {Typography} from "./ui/components/typography/typography.component";
 import {ChartistJs} from "./charts/components/chartistJs/chartistJs.component";
 import {Permission} from "../theme/services/baMenu/dynamicMenuService.service";
-import { Test } from './test/test.component';
-import { Test2 } from './test2/test2.component';
+import {Test} from "./test/test.component";
+import {Test2} from "./test2/test2.component";
 import {Ng2Tables} from "./tables/components/ng2Tables/ng2Tables.component";
-import { Test3 } from './test3/test3.component';
-import { Test4 } from './test4/test4.component';
-import {PrimeNgDataTableComponent} from './tables/components/primengDataTable/primeNgDataTable.component';
+import {Test3} from "./test3/test3.component";
+import {Test4} from "./test4/test4.component";
+import {PrimeNgDataTableComponent} from "./tables/components/primengDataTable/primeNgDataTable.component";
+import {Component0510} from "./testPages/test0510/0510.component";
+import {TestForComponent} from "./testPages/testFor/testForm.component";
+import {TestInputOutputComponent} from "./testPages/testInputOutput/testInputOutput.component";
+import {TestViewChildComponent} from "./testPages/testViewChild/testViewChild.component";
+import {TestInjectParentComponent} from "./testPages/testInjectParent/testInjectParent.component";
+import {ComponentZzh} from "./testPages/testZzh/zzh.component";
+import {TestAnyCompInteractComponent} from './testPages/testAnyCompInteract/testAnyCompInteract.component';
+import {TestHttpComponent} from './testPages/testHttp/testHttp.component';
+import {TestFormComponent} from './testPages/testForm/testForm.component';
 
 export const PAGES_MENU: Permission[] = [
     {
-        path: 'member',
+        path: '/member',
         data: {
           menu: {
             title: '会员中心'
@@ -106,7 +115,41 @@ export const PAGES_MENU: Permission[] = [
               }
             }
           },
-            {
+          { // 开发人员测试
+            path: '/testPages',
+            data: {
+              menu: {
+                title: '开发人员测试目录'
+              }
+            },
+            children: [
+              {
+                actClass: Component0510,
+                path: '/test0510',
+                data: {
+                  menu: {
+                    title: '测试页面',
+                    icon: 'ion-android-home',
+                    selected: false,
+                    expanded: false,
+                    order: 0
+                  }
+                }
+              }, {
+                actClass: ComponentZzh,
+                path: '/testZzh',
+                data: {
+                  menu: {
+                    title: 'zzh测试',
+                    selected: false,
+                    expanded: false,
+                  }
+                }
+              }
+            ]
+          },
+
+          {
                 path: 'editors',
                 data: {
                     menu: {
@@ -338,6 +381,126 @@ export const PAGES_MENU: Permission[] = [
           }
         }
       }
-    ]
-  }
+    ]}, { // 开发人员测试
+        path: '/testPages',
+        data: {
+            menu: {
+                title: '开发人员测试目录'
+            }
+        },
+        children: [
+            {
+                actClass: Component0510,
+                path: '/test0510',
+                data: {
+                    menu: {
+                        title: '测试页面',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            },
+            {
+                actClass: TestForComponent,
+                path: '/testFor',
+                data: {
+                    menu: {
+                        title: 'for指令测试',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            }
+
+            ,
+            {
+                actClass: TestInputOutputComponent,
+                path: '/TestInputOutputComponent',
+                data: {
+                    menu: {
+                        title: 'Input/Output测试',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            }
+
+            ,
+            {
+                actClass: TestViewChildComponent,
+                path: '/TestViewChildComponent',
+                data: {
+                    menu: {
+                        title: 'ViewChild测试',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            },
+
+            {
+                actClass: TestInjectParentComponent,
+                path: '/TestInjectParentComponent',
+                data: {
+                    menu: {
+                        title: '注入父组件测试',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            },
+
+            {
+                actClass: TestAnyCompInteractComponent,
+                path: '/TestAnyCompInteractComponent',
+                data: {
+                    menu: {
+                        title: '任意组件之间交互',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            },
+
+            {
+                actClass: TestHttpComponent,
+                path: '/TestHttpComponent',
+                data: {
+                    menu: {
+                        title: '请求后台数据',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            },
+
+            {
+                actClass: TestFormComponent,
+                path: '/TestFormComponent',
+                data: {
+                    menu: {
+                        title: 'Form表单',
+                        icon: 'ion-android-home',
+                        selected: false,
+                        expanded: false,
+                        order: 0
+                    }
+                }
+            },
+        ]
+    }
 ];

@@ -1,0 +1,52 @@
+<div>
+
+    <form [formGroup]="memberForm" (submit)="onSubmit()">
+
+        <p>
+            <label>用户名</label>
+            <input formControlName="memberName"/>
+        </p>
+
+        <p *ngIf="memberForm.get('memberName').errors && memberForm.get('memberName').errors.required">
+            用户名不能为空
+        </p>
+
+        <p *ngIf="memberForm.get('memberName').errors && memberForm.get('memberName').errors.minlength">
+            长度必须大于{{memberForm.get('memberName').errors.minlength.requiredLength}}
+        </p>
+
+        <p>
+            <label>年龄</label>
+            <input formControlName="age"/>
+        </p>
+
+        <p>
+            <label>密码</label>
+            <input formControlName="password" type="password"/>
+        </p>
+
+        <p>
+            <label>性别</label>
+            <input formControlName="sex" type="radio" value="male"/>男
+            <input formControlName="sex" type="radio" value="female"/>女
+        </p>
+
+        <p formGroupName="interests">
+            <label>爱好</label>
+            <input formControlName="interests1" type="checkbox" value="篮球">篮球
+            <input formControlName="interests2" type="checkbox" value="足球">足球
+            <input formControlName="interests3" type="checkbox" value="羽毛球">羽毛球
+        </p>
+
+        <input type="submit" value="提交"/>
+    </form>
+
+</div>
+
+<div>
+    表单数据: {{memberForm.value | json}}
+</div>
+
+<div>
+    用户名错误: {{memberForm.get('memberName').errors | json}}
+</div>

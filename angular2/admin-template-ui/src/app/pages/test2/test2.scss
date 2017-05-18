@@ -1,0 +1,39 @@
+/*按钮、label基础样式*/
+button{
+  min-width: 5.42rem;
+  line-height:1.25rem;
+  height: 2.25rem;
+}
+label{
+  min-width: 4.0625rem;
+  justify-content: flex-end;
+}
+/*按钮、label基础样式 end*/
+
+/*校验提示样式*/
+.alert-danger{
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  box-shadow: none;
+}
+/*校验提示样式 end*/
+
+/*文本框+按钮组合圆角样式*/
+.input-group{
+  .bd-radius{
+    button,input{
+      border-bottom-left-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+  }
+  input{
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+}
+.input-group {
+  .form-control:not(:first-child):not(:last-child){
+    border-radius:5px ;
+  }
+}
+/*文本框+按钮组合圆角样式 end*/

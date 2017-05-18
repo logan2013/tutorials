@@ -17,6 +17,8 @@ import {TestbModule} from "./test2/testb.module";
 import { TestModule2 } from './test2/test2.module';
 import { TestModule3 } from './test3/test3.module';
 import { Test4Module } from './test4/test4.module';
+import {TestPagesModule} from './testPages/testPages.module';
+import {Module0510} from "./testPages/test0510/0510.module";
 
 
 
@@ -27,7 +29,7 @@ import { Test4Module } from './test4/test4.module';
     ChartsModule, ComponentsModule,
     DashboardModule, EditorsModule,
     TestModule,TestModule2,TestModule3,Test4Module,
-    FormsModule, MapsModule, TablesModule, UiModule],
+    FormsModule, MapsModule, TablesModule, UiModule, TestPagesModule],
   declarations: [Pages]
 })
 export class PagesModule {

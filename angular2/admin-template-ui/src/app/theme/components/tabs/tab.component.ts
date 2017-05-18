@@ -12,6 +12,8 @@ import {TabContentDirective} from "../../directives";
   </div>
   `
 })
+
+
 export class TabComponent implements AfterContentInit {
 
   @Input() actClass: any;

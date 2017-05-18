@@ -9,7 +9,7 @@ import { TableData } from './table-data';
   selector: 'test',
   styleUrls: ['./test.scss'],
   templateUrl: './test.html',
-  encapsulation: ViewEncapsulation.None
+
 })
 
 export class Test implements OnInit {

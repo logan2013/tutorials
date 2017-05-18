@@ -17,7 +17,7 @@ export const PAGINATION_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 const PAGINATION_TEMPLATE = `
-  <ul class="pagination d-block text-center mt-3 list-inline pagination-sm"  [ngClass]="classMap">
+  <ul class="pagination d-block text-center mt-3 list-inline pagination-sm " [ngClass]="classMap">
     <li class="pagination-first page-item list-inline-item"
         *ngIf="boundaryLinks"
         [class.disabled]="noPrevious()||disabled">
@@ -47,6 +47,7 @@ const PAGINATION_TEMPLATE = `
 
 @Component({
     selector: 'pagination',
+    styleUrls: ['./pagination.scss'],
     template: PAGINATION_TEMPLATE,
     providers: [PAGINATION_CONTROL_VALUE_ACCESSOR]
 })
@@ -55,7 +56,7 @@ export class PaginationComponent implements ControlValueAccessor, OnInit {
     /** if `true` aligns each link to the sides of pager */
     @Input() public align: boolean;
     /** limit number for page links in pager */
-    @Input() public maxSize: number;
+    @Input() public maxSize: number = 3;
     /** if false first and last buttons will be hidden */
     @Input() public boundaryLinks: boolean;
     /** if false previous and next buttons will be hidden */
@@ -142,7 +143,7 @@ export class PaginationComponent implements ControlValueAccessor, OnInit {
     public classMap: string;
     public pages: any[];
 
-    protected _itemsPerPage: number;
+    protected _itemsPerPage: number = 10;
     protected _totalItems: number;
     protected _totalPages: number;
     protected inited: boolean = false;
